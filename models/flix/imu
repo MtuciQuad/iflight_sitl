@@ -1,0 +1,36 @@
+<imu>
+					<angular_velocity>
+						<x>
+							<noise type="gaussian">
+								<stddev>0.00174533</stddev><!-- 0.1 degrees per second -->
+							</noise>
+						</x>
+						<y>
+							<noise type="gaussian">
+								<stddev>0.00174533</stddev>
+							</noise>
+						</y>
+						<z>
+							<noise type="gaussian">
+								<stddev>0.00174533</stddev>
+							</noise>
+						</z>
+					</angular_velocity>
+					<linear_acceleration>
+						<x>
+							<noise type="gaussian">
+								<stddev>0.0784</stddev><!-- 8 mg -->
+							</noise>
+						</x>
+						<y>
+							<noise type="gaussian">
+								<stddev>0.0784</stddev>
+							</noise>
+						</y>
+						<z>
+							<noise type="gaussian">
+								<stddev>0.0784</stddev>
+							</noise>
+						</z>
+					</linear_acceleration>
+				</imu>
