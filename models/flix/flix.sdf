@@ -70,5 +70,8 @@
 		<!-- <plugin name="flix" filename="libflix.so"/> -->
 		<plugin filename="Iflight" name="iflight::Iflight">
 		</plugin>
+		<plugin filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+		</plugin>
 	</model>
 </sdf>

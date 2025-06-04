@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+	<world name="default">
+		<scene>
+			<ambient>1 1 1 1</ambient>
+			<sky/>
+			<origin_visual>false</origin_visual>
+			<grid>false</grid>
+		</scene>
+		<gui>
+			<camera name="user_camera">
+				<pose>-2.3 0 1.1 0 0.3 0</pose>
+			</camera>
+		</gui>
+		<physics type="ode">
+			<max_step_size>0.00025</max_step_size>
+			<!-- <max_step_size>0.001</max_step_size> -->
+			<real_time_update_rate>4000</real_time_update_rate>
+		</physics>
+		<include>
+			<uri>floor</uri>
+		</include>
+		<include>
+			<uri>flix</uri>
+			<pose>0 0 0.3 0 0 0</pose>
+		</include>
+		<plugin filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+		</plugin>
+	</world>
+</sdf>

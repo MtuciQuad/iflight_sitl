@@ -18,6 +18,8 @@ namespace iflight
       gz::transport::Node node;
       gz::transport::Node::Publisher pub;
       gz::msgs::IMU imuMsg;
+      gz::sim::Model model;
+      gz::sim::Entity linkEntity;
 
     public: void Configure(const gz::sim::Entity &_entity,
                         const std::shared_ptr<const sdf::Element> &_sdf,
@@ -33,6 +35,8 @@ namespace iflight
       this->imuMsg = _msg;
       // std::cout << "Msg: " << _msg << std::endl << std::endl;
     };
+
+    public: void publishImuData();
 
   };
 

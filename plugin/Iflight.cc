@@ -9,7 +9,7 @@
 #include <gz/sim/System.hh>
 #include <gz/sim/Model.hh>
 #include <gz/transport/Node.hh>
-#include <gz/sensors/ImuSensor.hh>
+// #include <gz/sensors/ImuSensor.hh>
 #include <gz/msgs.hh>
 
 using namespace gz::sim;
@@ -35,10 +35,18 @@ void Iflight::Configure(const Entity &_entity,
   sdf::ElementPtr sdfClone = _sdf->Clone();
 
   this->pub = this->node.Advertise<gz::msgs::StringMsg>("ImuData");
-
-
-  // this->sub_node.Subscribe("/MotorForces", cb);
   this->node.Subscribe("/imu", &iflight::Iflight::cb, this);
+  // this->sub_node.Subscribe("/MotorForces", cb);
+  
+  this->model = Model(_entity);
+  // this->linkEntity = this->model.LinkByName(_ecm, "link_name");
+  // if (!_ecm.EntityHasComponentType(this->linkEntity,
+  //                                       components::WorldPose::typeId))
+  // {
+      // _ecm.CreateComponent(this->linkEntity, components::WorldPose());
+  //     gzmsg << "123" << std::endl;
+  // }
+
 
 
 }
@@ -51,6 +59,7 @@ void Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     msg += "not ";
   msg += "paused.";
 
+  this->publishImuData();
   // gzmsg << imuMsg << std::endl;
 
   // this->sub_node.Subscribe("/imu", cb);
@@ -64,4 +73,17 @@ void Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
   // {
   //   gzmsg << "Error subscribing to topic" << std::endl;
   // }
+}
+
+void Iflight::publishImuData() {
+    float imuData[] = {
+      (float)(imuMsg.linear_acceleration().y() / 10.0),
+      -(float)(imuMsg.linear_acceleration().x() / 10.0),
+      (float)(imuMsg.linear_acceleration().z() / 10.0),
+			-(float)(imuMsg.angular_velocity().y()),
+      (float)(imuMsg.angular_velocity().x()),
+      -(float)(imuMsg.angular_velocity().z())
+    };
+
+    // gzmsg << imuData[0] << std::endl;
 }
