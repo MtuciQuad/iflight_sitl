@@ -9,17 +9,24 @@
 
 namespace iflight
 {
+  class IflightPrivate;
+
   class GZ_SIM_VISIBLE Iflight:
     public gz::sim::System,
     public gz::sim::ISystemConfigure,
     public gz::sim::ISystemPreUpdate
   {
     private:
+      std::unique_ptr<IflightPrivate> dataPtr;
       gz::transport::Node node;
       gz::transport::Node::Publisher pub;
       gz::msgs::IMU imuMsg;
       gz::sim::Model model;
       gz::sim::Entity linkEntity;
+
+    public: Iflight();
+  
+    public: ~Iflight();
 
     public: void Configure(const gz::sim::Entity &_entity,
                         const std::shared_ptr<const sdf::Element> &_sdf,
