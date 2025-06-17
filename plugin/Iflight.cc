@@ -14,46 +14,53 @@
 // #include <gz/sensors/ImuSensor.hh>
 #include <gz/msgs.hh>
 
-using namespace gz::sim;
-using namespace iflight;
+// using namespace gz::sim;
+// using namespace iflight;
 
 
 GZ_ADD_PLUGIN(
-    iflight::Iflight,
+    gz::sim::systems::Iflight,
     gz::sim::System,
-    iflight::Iflight::ISystemConfigure,
-    iflight::Iflight::ISystemPreUpdate)
+    gz::sim::systems::Iflight::ISystemConfigure,
+    gz::sim::systems::Iflight::ISystemPreUpdate)
 
-GZ_ADD_PLUGIN_ALIAS(iflight::Iflight, "Iflight")
+GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
 
-class IflightPrivate
+class gz::sim::systems::IflightPrivate
 {
-  public: gz::msgs::IMU imuMsg;
-  public: bool imuMsgValid{false};
+  public: gz::sim::Model model;
+  // public: gz::transport::Node node;
+  // public: gz::transport::Node::Publisher pub;
+  // public: gz::msgs::IMU imuMsg;
+  // public: gz::sim::Entity linkEntity;
 };
 
-Iflight::Iflight()
+gz::sim::systems::Iflight::Iflight()
   : dataPtr(new IflightPrivate())
 {
 }
 
-// Iflight::~Iflight()
-// {
-// }
+gz::sim::systems::Iflight::~Iflight()
+{
+}
 
-void Iflight::Configure(const Entity &_entity,
+
+
+void gz::sim::systems::Iflight::Configure(const Entity &_entity,
     const std::shared_ptr<const sdf::Element> &_sdf,
     EntityComponentManager &_ecm,
     EventManager &_eventMgr)
 {
   sdf::ElementPtr sdfClone = _sdf->Clone();
+  this->dataPtr->model = gz::sim::Model(_entity);
 
-  this->pub = this->node.Advertise<gz::msgs::StringMsg>("ImuData");
-  this->node.Subscribe("/imu", &iflight::Iflight::cb, this);
+
+
+  // this->pub = this->node.Advertise<gz::msgs::StringMsg>("ImuData");
+  // this->node.Subscribe("/imu", &iflight::Iflight::cb, this);
   // this->sub_node.Subscribe("/MotorForces", cb);
   
-  this->model = Model(_entity);
   // this->linkEntity = this->model.LinkByName(_ecm, "link_name");
   // if (!_ecm.EntityHasComponentType(this->linkEntity,
   //                                       components::WorldPose::typeId))
@@ -61,60 +68,125 @@ void Iflight::Configure(const Entity &_entity,
       // _ecm.CreateComponent(this->linkEntity, components::WorldPose());
   //     gzmsg << "123" << std::endl;
   // }
+  }
 
-
-
-}
-
-void Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
-   gz::sim::EntityComponentManager &_ecm)
-{
-  std::string msg = "Hello, world! Simulation is ";
-  if (!_info.paused)
-    msg += "not ";
-  msg += "paused.";
-
-  this->publishImuData(); 
-
-  auto entities = entitiesFromScopedName("rotor_3_joint", _ecm, this->model.Entity());
-  Entity joint = *entities.begin();
-  gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-  if (jfcComp == nullptr)
-      {
-        // jfcComp = _ecm.CreateComponent(joint,
-        //     gz::sim::components::JointForceCmd({0}));
-        gzmsg << "null" << std::endl;
+  void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
+     gz::sim::EntityComponentManager &_ecm)
+  {
+    std::string msg = "Hello, world! Simulation is ";
+    if (!_info.paused)
+      msg += "not ";
+    msg += "paused.";
+  
+  
+  
+    {
+      auto entities = entitiesFromScopedName("rotor_0_joint", _ecm, this->dataPtr->model.Entity());
+      Entity joint = *entities.begin();
+      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+      if (jfcComp == nullptr)
+          {
+            // jfcComp = _ecm.CreateComponent(joint,
+            //     gz::sim::components::JointForceCmd({0}));
+            gzmsg << "null" << std::endl;
+          }
+      else {
+        jfcComp->Data()[0] = 10;
+        // gzmsg << jfcComp->Data()[0] << std::endl;
       }
-  else {
-    jfcComp->Data()[0] = 1;
-    gzmsg << jfcComp->Data()[0] << std::endl;
+    }
+    
+    {
+      auto entities = entitiesFromScopedName("rotor_2_joint", _ecm, this->dataPtr->model.Entity());
+      Entity joint = *entities.begin();
+      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+      if (jfcComp == nullptr)
+          {
+            // jfcComp = _ecm.CreateComponent(joint,
+            //     gz::sim::components::JointForceCmd({0}));
+            gzmsg << "null" << std::endl;
+          }
+      else {
+        jfcComp->Data()[0] = 10;
+        // gzmsg << jfcComp->Data()[0] << std::endl;
+      }
+    }
+
+    {
+      auto entities = entitiesFromScopedName("rotor_1_joint", _ecm, this->dataPtr->model.Entity());
+      Entity joint = *entities.begin();
+      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+      if (jfcComp == nullptr)
+          {
+            // jfcComp = _ecm.CreateComponent(joint,
+            //     gz::sim::components::JointForceCmd({0}));
+            gzmsg << "null" << std::endl;
+          }
+      else {
+        jfcComp->Data()[0] = -10;
+        // gzmsg << jfcComp->Data()[0] << std::endl;
+      }
+    }
+
+    {
+      auto entities = entitiesFromScopedName("rotor_3_joint", _ecm, this->dataPtr->model.Entity());
+      Entity joint = *entities.begin();
+      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+      if (jfcComp == nullptr)
+          {
+            // jfcComp = _ecm.CreateComponent(joint,
+            //     gz::sim::components::JointForceCmd({0}));
+            gzmsg << "null" << std::endl;
+          }
+      else {
+        jfcComp->Data()[0] = -10;
+        // gzmsg << jfcComp->Data()[0] << std::endl;
+      }
+    }
+
+    // gzmsg << imuMsg << std::endl;
+  
+    // this->sub_node.Subscribe("/imu", cb);
+    
+    // gz::msgs::StringMsg gz_msg;
+    // gz_msg.set_data("HELLO");
+    // this->pub.Publish(gz_msg);
+    // gzmsg << msg << std::endl;
+    
+    // if (!this->node.Subscribe("/imu", cb))
+    // {
+    //   gzmsg << "Error subscribing to topic" << std::endl;
+    // }
   }
 
 
-  // gzmsg << imuMsg << std::endl;
 
-  // this->sub_node.Subscribe("/imu", cb);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-  // gz::msgs::StringMsg gz_msg;
-  // gz_msg.set_data("HELLO");
-  // this->pub.Publish(gz_msg);
-  // gzmsg << msg << std::endl;
-  
-  // if (!this->node.Subscribe("/imu", cb))
-  // {
-  //   gzmsg << "Error subscribing to topic" << std::endl;
-  // }
-}
 
-void Iflight::publishImuData() {
-    float imuData[] = {
-      (float)(imuMsg.linear_acceleration().y() / 10.0),
-      -(float)(imuMsg.linear_acceleration().x() / 10.0),
-      (float)(imuMsg.linear_acceleration().z() / 10.0),
-			-(float)(imuMsg.angular_velocity().y()),
-      (float)(imuMsg.angular_velocity().x()),
-      -(float)(imuMsg.angular_velocity().z())
-    };
+// void Iflight::publishImuData() {
+//     float imuData[] = {
+//       (float)(imuMsg.linear_acceleration().y() / 10.0),
+//       -(float)(imuMsg.linear_acceleration().x() / 10.0),
+//       (float)(imuMsg.linear_acceleration().z() / 10.0),
+// 			-(float)(imuMsg.angular_velocity().y()),
+//       (float)(imuMsg.angular_velocity().x()),
+//       -(float)(imuMsg.angular_velocity().z())
+//     };
 
-    // gzmsg << imuData[0] << std::endl;
-}
+//     // gzmsg << imuData[0] << std::endl;
+// }

@@ -38,19 +38,39 @@
 			</visual>
 		</link>
 
+		<link name="rotor_0_base">
+			<pose>-0.05 0.05 0.0163 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<mass>0.0001</mass>
+			</inertial>
+			<collision name="rotor_0_base_collision">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+			</collision>
+			<visual name="rotor_0_base_visual">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+
 		<link name="rotor_0">
 			<pose>-0.05 0.05 0.0172 0 0 0</pose>
 			<inertial>
 				<pose>0 0 0 0 0 0</pose>
 			</inertial>
 			<visual name="rotor_0_visual"><!-- rear left -->
+				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
 				<pose>0 0 0 0 0 0</pose>
 				<geometry>
 					<box>
 						<size>0.035 0.01 0.005</size>
 					</box>
 				</geometry>
-				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
 				
 				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
 			</visual>
@@ -62,7 +82,12 @@
 				<pose>0 0 0 0 0 0</pose>
 			</inertial>
 			<visual name="rotor_1_visual"><!-- rear right -->
-				<geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry>
+				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
+				<geometry>
+					<box>
+						<size>0.035 0.01 0.005</size>
+					</box>
+				</geometry>
 				<pose>0 0 0 0 0 0</pose>
 				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
 			</visual>
@@ -74,7 +99,12 @@
 				<pose>0 0 0 0 0 0</pose>
 			</inertial>
 			<visual name="rotor_2_visual"><!-- front right -->
-				<geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry>
+				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
+				<geometry>
+					<box>
+						<size>0.035 0.01 0.005</size>
+					</box>
+				</geometry>
 				<pose>0 0 0 0 0 0</pose>
 				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
 			</visual>
@@ -86,10 +116,16 @@
 				<pose>0 0 0 0 0 0</pose>
 			</inertial>
 			<visual name="rotor_3_visual"><!-- front left -->
-				<geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry>
+				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
+				<geometry>
+					<box>
+						<size>0.035 0.01 0.005</size>
+					</box>
+				</geometry>
 				<pose>0 0 0 0 0 0</pose>
 				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
 			</visual>
+			
 		</link>
 
 		<joint name="rotor_0_joint" type="revolute">
@@ -186,7 +222,85 @@
 			<joint_name>rotor_3_joint</joint_name>
 		</plugin>
 
-		<plugin filename="Iflight" name="iflight::Iflight">
+
+
+		<plugin filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.3</a0>
+			<alpha_stall>1.4</alpha_stall>
+			<cla>4.2500</cla>
+			<cda>0.10</cda>
+			<cma>0.0</cma>
+			<cla_stall>-0.025</cla_stall>
+			<cda_stall>0.0</cda_stall>
+			<cma_stall>0.0</cma_stall>
+			<area>0.002</area>
+			<air_density>1.2041</air_density>
+			<cp>-0.084 0 0</cp>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>rotor_1</link_name>
+		</plugin>
+		<plugin filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.3</a0>
+			<alpha_stall>1.4</alpha_stall>
+			<cla>4.2500</cla>
+			<cda>0.10</cda>
+			<cma>0.0</cma>
+			<cla_stall>-0.025</cla_stall>
+			<cda_stall>0.0</cda_stall>
+			<cma_stall>0.0</cma_stall>
+			<area>0.002</area>
+			<air_density>1.2041</air_density>
+			<cp>-0.084 0 0</cp>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>rotor_0</link_name>
+		</plugin>
+		
+		<plugin filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.3</a0>
+			<alpha_stall>1.4</alpha_stall>
+			<cla>4.2500</cla>
+			<cda>0.10</cda>
+			<cma>0.0</cma>
+			<cla_stall>-0.025</cla_stall>
+			<cda_stall>0.0</cda_stall>
+			<cma_stall>0.0</cma_stall>
+			<area>0.002</area>
+			<air_density>1.2041</air_density>
+			<cp>-0.084 0 0</cp>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>rotor_2</link_name>
+		</plugin>
+
+		<plugin filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.3</a0>
+			<alpha_stall>1.4</alpha_stall>
+			<cla>4.2500</cla>
+			<cda>0.10</cda>
+			<cma>0.0</cma>
+			<cla_stall>-0.025</cla_stall>
+			<cda_stall>0.0</cda_stall>
+			<cma_stall>0.0</cma_stall>
+			<area>0.002</area>
+			<air_density>1.2041</air_density>
+			<cp>-0.084 0 0</cp>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>rotor_3</link_name>
+		</plugin>
+
+		
+
+
+
+
+		<plugin filename="Iflight" name="Iflight">
 		</plugin>
 		<plugin filename="gz-sim-imu-system"
         name="gz::sim::systems::Imu">
