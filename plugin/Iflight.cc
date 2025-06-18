@@ -80,69 +80,69 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   
   
   
-    {
-      auto entities = entitiesFromScopedName("rotor_0_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = 10;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
+    // {
+    //   auto entities = entitiesFromScopedName("rotor_0_joint", _ecm, this->dataPtr->model.Entity());
+    //   Entity joint = *entities.begin();
+    //   gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+    //   if (jfcComp == nullptr)
+    //       {
+    //         // jfcComp = _ecm.CreateComponent(joint,
+    //         //     gz::sim::components::JointForceCmd({0}));
+    //         gzmsg << "null" << std::endl;
+    //       }
+    //   else {
+    //     jfcComp->Data()[0] = 10;
+    //     // gzmsg << jfcComp->Data()[0] << std::endl;
+    //   }
+    // }
     
-    {
-      auto entities = entitiesFromScopedName("rotor_2_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = 10;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
+    // {
+    //   auto entities = entitiesFromScopedName("rotor_2_joint", _ecm, this->dataPtr->model.Entity());
+    //   Entity joint = *entities.begin();
+    //   gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+    //   if (jfcComp == nullptr)
+    //       {
+    //         // jfcComp = _ecm.CreateComponent(joint,
+    //         //     gz::sim::components::JointForceCmd({0}));
+    //         gzmsg << "null" << std::endl;
+    //       }
+    //   else {
+    //     jfcComp->Data()[0] = 10;
+    //     // gzmsg << jfcComp->Data()[0] << std::endl;
+    //   }
+    // }
 
-    {
-      auto entities = entitiesFromScopedName("rotor_1_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = -10;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
+    // {
+    //   auto entities = entitiesFromScopedName("rotor_1_joint", _ecm, this->dataPtr->model.Entity());
+    //   Entity joint = *entities.begin();
+    //   gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+    //   if (jfcComp == nullptr)
+    //       {
+    //         // jfcComp = _ecm.CreateComponent(joint,
+    //         //     gz::sim::components::JointForceCmd({0}));
+    //         gzmsg << "null" << std::endl;
+    //       }
+    //   else {
+    //     jfcComp->Data()[0] = -10;
+    //     // gzmsg << jfcComp->Data()[0] << std::endl;
+    //   }
+    // }
 
-    {
-      auto entities = entitiesFromScopedName("rotor_3_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = -10;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
+    // {
+    //   auto entities = entitiesFromScopedName("rotor_3_joint", _ecm, this->dataPtr->model.Entity());
+    //   Entity joint = *entities.begin();
+    //   gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
+    //   if (jfcComp == nullptr)
+    //       {
+    //         // jfcComp = _ecm.CreateComponent(joint,
+    //         //     gz::sim::components::JointForceCmd({0}));
+    //         gzmsg << "null" << std::endl;
+    //       }
+    //   else {
+    //     jfcComp->Data()[0] = -10;
+    //     // gzmsg << jfcComp->Data()[0] << std::endl;
+    //   }
+    // }
 
     // gzmsg << imuMsg << std::endl;
   

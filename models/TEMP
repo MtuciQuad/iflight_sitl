@@ -1,0 +1,40 @@
+		<link name="rotor_0">
+			<pose>-0.05 0.05 0.0172 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+			</inertial>
+			<visual name="rotor_0_visual"><!-- rear left -->
+				<!-- <geometry><cylinder><radius>0.035</radius><length>0.0001</length></cylinder></geometry> -->
+				<pose>0 0 0 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.035 0.01 0.005</size>
+					</box>
+				</geometry>
+				
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+
+
+
+		<joint name="rotor_0_joint" type="revolute">
+			<child>rotor_0</child>
+			<parent>body_link</parent>
+			<axis>
+				<xyz>0 0 1</xyz>
+				<limit>
+					<lower>-1e+16</lower>
+					<upper>1e+16</upper>
+				</limit>
+				<dynamics>
+					<damping>0.004</damping>
+				</dynamics>
+			</axis>
+			<physics>
+				<ode>
+					<implicit_spring_damper>1</implicit_spring_damper>
+				</ode>
+			</physics>
+		</joint>
