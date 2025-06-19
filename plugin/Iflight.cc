@@ -91,7 +91,7 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
             gzmsg << "null" << std::endl;
           }
       else {
-        jfcComp->Data()[0] = 2.8;
+        jfcComp->Data()[0] = 2.5;
         gzmsg << jfcComp->Data()[0] << std::endl;
       }
     }
@@ -107,7 +107,7 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
             gzmsg << "null" << std::endl;
           }
       else {
-        jfcComp->Data()[0] = 2.8;
+        jfcComp->Data()[0] = 2.5;
         // gzmsg << jfcComp->Data()[0] << std::endl;
       }
     }
@@ -123,7 +123,7 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
             gzmsg << "null" << std::endl;
           }
       else {
-        jfcComp->Data()[0] = -2.8;
+        jfcComp->Data()[0] = -2.5;
         // gzmsg << jfcComp->Data()[0] << std::endl;
       }
     }
@@ -139,7 +139,7 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
             gzmsg << "null" << std::endl;
           }
       else {
-        jfcComp->Data()[0] = -2.8;
+        jfcComp->Data()[0] = -2.5;
         // gzmsg << jfcComp->Data()[0] << std::endl;
       }
     }

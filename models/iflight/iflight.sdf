@@ -96,7 +96,7 @@
 		</link>
 
         <link name="rotor_0_blade_1">
-			<pose>-0.05 0.05 0.01 0 0 3.141593</pose>
+			<pose>-0.05 0.05 0.01 0 0 2.094395</pose>
 			<inertial>
 				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
                 <inertia>
@@ -124,6 +124,34 @@
 			</visual>
 		</link>
 
+        <link name="rotor_0_blade_2">
+			<pose>-0.05 0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<collision name="rotor_0_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision>
+			<visual name="rotor_0_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
 
 		<joint name="rotor_0_base_joint" type="revolute">
 			<parent>body</parent>
@@ -155,6 +183,12 @@
 			<child>rotor_0_blade_1</child>
 			<pose>0 0 0 0 0 0</pose>
 		</joint>
+        <joint name="rotor_0_blade_2_joint" type="fixed">
+			<parent>rotor_0_base</parent>
+			<child>rotor_0_blade_2</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+
 
         <link name="rotor_1_base">
 			<pose>-0.05 -0.05 0.0075 0 0 0</pose>
@@ -213,7 +247,7 @@
 		</link>
 
         <link name="rotor_1_blade_1">
-			<pose>-0.05 -0.05 0.01 0 0 3.141593</pose>
+			<pose>-0.05 -0.05 0.01 0 0 2.094395</pose>
 			<inertial>
 				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
                 <inertia>
@@ -241,6 +275,34 @@
 			</visual>
 		</link>
 
+        <link name="rotor_1_blade_2">
+			<pose>-0.05 -0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<collision name="rotor_1_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision>
+			<visual name="rotor_1_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
 
 		<joint name="rotor_1_base_joint" type="revolute">
 			<parent>body</parent>
@@ -270,6 +332,11 @@
         <joint name="rotor_1_blade_1_joint" type="fixed">
 			<parent>rotor_1_base</parent>
 			<child>rotor_1_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_1_blade_2_joint" type="fixed">
+			<parent>rotor_1_base</parent>
+			<child>rotor_1_blade_2</child>
 			<pose>0 0 0 0 0 0</pose>
 		</joint>
 
@@ -330,7 +397,7 @@
 		</link>
 
         <link name="rotor_2_blade_1">
-			<pose>0.05 -0.05 0.01 0 0 3.141593</pose>
+			<pose>0.05 -0.05 0.01 0 0 2.094395</pose>
 			<inertial>
 				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
                 <inertia>
@@ -350,6 +417,35 @@
 				</geometry>
 			</collision>
 			<visual name="rotor_2_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_2_blade_2">
+			<pose>0.05 -0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<collision name="rotor_2_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision>
+			<visual name="rotor_2_blade_2_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
@@ -386,6 +482,11 @@
         <joint name="rotor_2_blade_1_joint" type="fixed">
 			<parent>rotor_2_base</parent>
 			<child>rotor_2_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_2_blade_2_joint" type="fixed">
+			<parent>rotor_2_base</parent>
+			<child>rotor_2_blade_2</child>
 			<pose>0 0 0 0 0 0</pose>
 		</joint>
 
@@ -446,7 +547,7 @@
 		</link>
 
         <link name="rotor_3_blade_1">
-			<pose>0.05 0.05 0.01 0 0 3.141593</pose>
+			<pose>0.05 0.05 0.01 0 0 2.094395</pose>
 			<inertial>
 				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
                 <inertia>
@@ -466,6 +567,35 @@
 				</geometry>
 			</collision>
 			<visual name="rotor_3_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_3_blade_2">
+			<pose>0.05 0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<collision name="rotor_3_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision>
+			<visual name="rotor_3_blade_2_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
@@ -502,6 +632,11 @@
         <joint name="rotor_3_blade_1_joint" type="fixed">
 			<parent>rotor_3_base</parent>
 			<child>rotor_3_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_3_blade_2_joint" type="fixed">
+			<parent>rotor_3_base</parent>
+			<child>rotor_3_blade_2</child>
 			<pose>0 0 0 0 0 0</pose>
 		</joint>
 
@@ -545,6 +680,21 @@
 			<link_name>rotor_0_blade_1</link_name>
 		</plugin>
 
+        <plugin
+			filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.1</a0>
+			<cla>0.1</cla>
+			<cda>0.001</cda>
+			<cma>0.0</cma>
+			<cp>0.0 0.0175 0</cp>
+			<area>0.00035</area>
+			<air_density>1.2041</air_density>
+			<forward>1 0 0</forward> <!-- CCW -1 0 0 -->     
+			<upward>0 0 1</upward>
+			<link_name>rotor_0_blade_2</link_name>
+		</plugin>
+
 		<plugin
         filename="gz-sim-apply-joint-force-system"
         name="gz::sim::systems::ApplyJointForce">
@@ -581,6 +731,20 @@
 			<link_name>rotor_1_blade_1</link_name>
 		</plugin>
 
+        <plugin
+			filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.1</a0>
+			<cla>0.1</cla>
+			<cda>0.001</cda>
+			<cma>0.0</cma>
+			<cp>0.0 0.0175 0</cp>
+			<area>0.00035</area>
+			<air_density>1.2041</air_density>
+			<forward>-1 0 0</forward> <!-- CCW -1 0 0 -->     
+			<upward>0 0 1</upward>
+			<link_name>rotor_1_blade_2</link_name>
+		</plugin>
 
 		<plugin
         filename="gz-sim-apply-joint-force-system"
@@ -619,6 +783,21 @@
 		</plugin>
 
         <plugin
+			filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.1</a0>
+			<cla>0.1</cla>
+			<cda>0.001</cda>
+			<cma>0.0</cma>
+			<cp>0.0 0.0175 0</cp>
+			<area>0.00035</area>
+			<air_density>1.2041</air_density>
+			<forward>1 0 0</forward> <!-- CCW -1 0 0 -->
+			<upward>0 0 1</upward>
+			<link_name>rotor_2_blade_2</link_name>
+		</plugin>
+
+        <plugin
         filename="gz-sim-apply-joint-force-system"
         name="gz::sim::systems::ApplyJointForce">
         	<joint_name>rotor_3_base_joint</joint_name>
@@ -652,6 +831,21 @@
 			<forward>-1 0 0</forward> <!-- CCW -1 0 0 -->
 			<upward>0 0 1</upward>
 			<link_name>rotor_3_blade_1</link_name>
+		</plugin>
+    
+        <plugin
+			filename="gz-sim-lift-drag-system"
+			name="gz::sim::systems::LiftDrag">
+			<a0>0.1</a0>
+			<cla>0.1</cla>
+			<cda>0.001</cda>
+			<cma>0.0</cma>
+			<cp>0.0 0.0175 0</cp>
+			<area>0.00035</area>
+			<air_density>1.2041</air_density>
+			<forward>-1 0 0</forward> <!-- CCW -1 0 0 -->
+			<upward>0 0 1</upward>
+			<link_name>rotor_3_blade_2</link_name>
 		</plugin>
 	</model>
 </sdf>
