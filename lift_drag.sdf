@@ -83,7 +83,7 @@
             <iyz>0.0</iyz>
             <izz>1.8</izz>
           </inertia>
-          <mass>0.392</mass>
+          <mass>10.0</mass>
         </inertial>
         <collision name="collision">
           <geometry>
