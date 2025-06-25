@@ -26,14 +26,38 @@ GZ_ADD_PLUGIN(
 
 GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
+class Rotor
+{
+  public: Rotor() {}
+  public: ~Rotor() {}
+  public: int index;
+  public: std::string jointName;
+  public: gz::sim::Entity joint;
+  public: int direction_k;
+  public: double currentForce = 0;
+};
+
+
 
 class gz::sim::systems::IflightPrivate
 {
   public: gz::sim::Model model;
-  // public: gz::transport::Node node;
+  public: std::vector<Rotor> rotors;
+  public: gz::transport::Node node;
+
+  public: gz::msgs::Float_V motorMsg;
+  public: bool motorMsgValid{false};
   // public: gz::transport::Node::Publisher pub;
   // public: gz::msgs::IMU imuMsg;
   // public: gz::sim::Entity linkEntity;
+
+
+
+  public: void MotorCb(const gz::msgs::Float_V &_msg)
+  {
+    motorMsg = _msg;
+    motorMsgValid = true;
+  }
 };
 
 gz::sim::systems::Iflight::Iflight()
@@ -55,6 +79,9 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   sdf::ElementPtr sdfClone = _sdf->Clone();
   this->dataPtr->model = gz::sim::Model(_entity);
 
+  this->LoadMotors(sdfClone, _ecm);
+
+  this->dataPtr->node.Subscribe("/MotorData", &gz::sim::systems::IflightPrivate::MotorCb, this->dataPtr.get());
 
 
   // this->pub = this->node.Advertise<gz::msgs::StringMsg>("ImuData");
@@ -65,103 +92,109 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   // if (!_ecm.EntityHasComponentType(this->linkEntity,
   //                                       components::WorldPose::typeId))
   // {
-      // _ecm.CreateComponent(this->linkEntity, components::WorldPose());
-  //     gzmsg << "123" << std::endl;
-  // }
-  }
-
-  void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
-     gz::sim::EntityComponentManager &_ecm)
-  {
-    std::string msg = "Hello, world! Simulation is ";
-    if (!_info.paused)
-      msg += "not ";
-    msg += "paused.";
-  
-  
-  
-    {
-      auto entities = entitiesFromScopedName("rotor_0_base_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = 2.5;
-        gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
-    
-    {
-      auto entities = entitiesFromScopedName("rotor_2_base_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = 2.5;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
-
-    {
-      auto entities = entitiesFromScopedName("rotor_1_base_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = -2.5;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
-
-    {
-      auto entities = entitiesFromScopedName("rotor_3_base_joint", _ecm, this->dataPtr->model.Entity());
-      Entity joint = *entities.begin();
-      gz::sim::components::JointForceCmd* jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(joint);
-      if (jfcComp == nullptr)
-          {
-            // jfcComp = _ecm.CreateComponent(joint,
-            //     gz::sim::components::JointForceCmd({0}));
-            gzmsg << "null" << std::endl;
-          }
-      else {
-        jfcComp->Data()[0] = -2.5;
-        // gzmsg << jfcComp->Data()[0] << std::endl;
-      }
-    }
-
-    // gzmsg << imuMsg << std::endl;
-  
-    // this->sub_node.Subscribe("/imu", cb);
-    
-    // gz::msgs::StringMsg gz_msg;
-    // gz_msg.set_data("HELLO");
-    // this->pub.Publish(gz_msg);
-    // gzmsg << msg << std::endl;
-    
-    // if (!this->node.Subscribe("/imu", cb))
-    // {
-    //   gzmsg << "Error subscribing to topic" << std::endl;
+    // _ecm.CreateComponent(this->linkEntity, components::WorldPose());
+    //     gzmsg << "123" << std::endl;
     // }
+}
+
+void gz::sim::systems::Iflight::LoadMotors(
+  sdf::ElementPtr _sdf,
+  gz::sim::EntityComponentManager &_ecm)
+{
+  sdf::ElementPtr rotorSDF;
+  if (_sdf->HasElement("rotor"))
+  {
+    rotorSDF = _sdf->GetElement("rotor");
+  }
+
+  while (rotorSDF)
+  {
+    Rotor rotor;
+
+    if (rotorSDF->HasAttribute("index"))
+    {
+      rotor.index = atoi(rotorSDF->GetAttribute("index")->GetAsString().c_str());
+    }
+    else
+    {
+      gzwarn << "A rotor without index was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    if (rotorSDF->HasElement("joint_name"))
+    {
+      rotor.jointName = rotorSDF->Get<std::string>("joint_name");
+    }
+    else
+    {
+      gzwarn << "A rotor without joint_name was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    if (rotorSDF->HasElement("direction_k"))
+    {
+      rotor.direction_k = rotorSDF->Get<double>("direction_k");
+    }
+    else
+    {
+      gzwarn << "A rotor without direction_k was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    auto entities = entitiesFromScopedName(rotor.jointName, _ecm, this->dataPtr->model.Entity());
+    rotor.joint = *entities.begin();
+
+    this->dataPtr->rotors.push_back(rotor);
+    rotorSDF = rotorSDF->GetNextElement("rotor");
+  }
+}
+  
+void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
+    gz::sim::EntityComponentManager &_ecm)
+{
+  std::string msg = "Hello, world! Simulation is ";
+  if (!_info.paused)
+    msg += "not ";
+  msg += "paused.";
+
+  this->ApplyMotorForces(_ecm);
+  // gzmsg << imuMsg << std::endl;
+  if (this->dataPtr->motorMsgValid)
+  {
+    float m1 = this->dataPtr->motorMsg.data().Get(0);
+    float m2 = this->dataPtr->motorMsg.data().Get(1);
+    float m3 = this->dataPtr->motorMsg.data().Get(2);
+    float m4 = this->dataPtr->motorMsg.data().Get(3);
+    gzmsg << m1 << " " << m2 << " " << m3 << " " << m4 << std::endl;
   }
 
 
+  // this->sub_node.Subscribe("/imu", cb);
+  
+  // gz::msgs::StringMsg gz_msg;
+  // gz_msg.set_data("HELLO");
+  // this->pub.Publish(gz_msg);
+  // gzmsg << msg << std::endl;
+  
+  // if (!this->node.Subscribe("/imu", cb))
+  // {
+  //   gzmsg << "Error subscribing to topic" << std::endl;
+  // }
+}
 
-
+void gz::sim::systems::Iflight::ApplyMotorForces(
+  gz::sim::EntityComponentManager &_ecm)
+{
+  for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
+  {
+    // gzmsg << this->dataPtr->rotors.size() << std::endl;
+    gz::sim::components::JointForceCmd* jfcComp = nullptr;
+    jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
+    if (jfcComp != nullptr) {
+      jfcComp->Data()[0] = 2.5 * this->dataPtr->rotors[i].direction_k;
+    }
+  }
+}
 
 
 

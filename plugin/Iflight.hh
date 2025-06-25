@@ -33,7 +33,10 @@ namespace gz
                           gz::sim::EventManager &) override;
 
       public: void PreUpdate(const gz::sim::UpdateInfo &_info,
-                  gz::sim::EntityComponentManager &_ecm) override;
+                          gz::sim::EntityComponentManager &_ecm) override;
+
+      private: void LoadMotors(sdf::ElementPtr _sdf,
+                          gz::sim::EntityComponentManager &_ecm);
 
       private: void ApplyMotorForces(gz::sim::EntityComponentManager &_ecm);
 

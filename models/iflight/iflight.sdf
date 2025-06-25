@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
-	<model name="iflight">
-        <plugin filename="Iflight" name="Iflight">
-		</plugin>
-		
+	<model name="iflight">		
         <link name="body">
 			<inertial>
                 <pose>0 0 0 0 0 0</pose>
@@ -846,6 +843,25 @@
 			<forward>-1 0 0</forward> <!-- CCW -1 0 0 -->
 			<upward>0 0 1</upward>
 			<link_name>rotor_3_blade_2</link_name>
+		</plugin>
+
+        <plugin filename="Iflight" name="Iflight">
+            <rotor index="0">
+                <joint_name>rotor_0_base_joint</joint_name>
+                <direction_k>1</direction_k>
+            </rotor>
+            <rotor index="1">
+                <joint_name>rotor_1_base_joint</joint_name>
+                <direction_k>-1</direction_k>
+            </rotor>
+            <rotor index="2">
+                <joint_name>rotor_2_base_joint</joint_name>
+                <direction_k>1</direction_k>
+            </rotor>
+            <rotor index="3">
+                <joint_name>rotor_3_base_joint</joint_name>
+                <direction_k>-1</direction_k>
+            </rotor>
 		</plugin>
 	</model>
 </sdf>
