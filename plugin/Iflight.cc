@@ -34,7 +34,7 @@ class Rotor
   public: std::string jointName;
   public: gz::sim::Entity joint;
   public: int direction_k;
-  public: double currentForce = 0;
+  public: double currentForce = 4.0;
 };
 
 
@@ -47,6 +47,7 @@ class gz::sim::systems::IflightPrivate
 
   public: gz::msgs::Float_V motorMsg;
   public: bool motorMsgValid{false};
+  public: std::mutex motorMsgMutex;
   // public: gz::transport::Node::Publisher pub;
   // public: gz::msgs::IMU imuMsg;
   // public: gz::sim::Entity linkEntity;
@@ -55,6 +56,7 @@ class gz::sim::systems::IflightPrivate
 
   public: void MotorCb(const gz::msgs::Float_V &_msg)
   {
+    std::lock_guard<std::mutex> lock(this->motorMsgMutex);
     motorMsg = _msg;
     motorMsgValid = true;
   }
@@ -157,18 +159,25 @@ void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     msg += "not ";
   msg += "paused.";
 
-  this->ApplyMotorForces(_ecm);
-  // gzmsg << imuMsg << std::endl;
-  if (this->dataPtr->motorMsgValid)
+  gz::msgs::Float_V motorMsg;
   {
-    float m1 = this->dataPtr->motorMsg.data().Get(0);
-    float m2 = this->dataPtr->motorMsg.data().Get(1);
-    float m3 = this->dataPtr->motorMsg.data().Get(2);
-    float m4 = this->dataPtr->motorMsg.data().Get(3);
-    gzmsg << m1 << " " << m2 << " " << m3 << " " << m4 << std::endl;
+    std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
+    if (this->dataPtr->motorMsgValid)
+    {
+      motorMsg = this->dataPtr->motorMsg;
+      // gzmsg << this->dataPtr->motorMsg.data().size() << std::endl;
+      // gzmsg << sizeof(this->dataPtr->rotors) << std::endl;
+      if (motorMsg.data().size() == 4) {
+        for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
+        {
+          this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k;
+        }
+      }
+    }
+    this->ApplyMotorForces(_ecm);
   }
-
-
+  
+  // gzmsg << imuMsg << std::endl;
   // this->sub_node.Subscribe("/imu", cb);
   
   // gz::msgs::StringMsg gz_msg;
@@ -187,11 +196,10 @@ void gz::sim::systems::Iflight::ApplyMotorForces(
 {
   for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
   {
-    // gzmsg << this->dataPtr->rotors.size() << std::endl;
     gz::sim::components::JointForceCmd* jfcComp = nullptr;
     jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
     if (jfcComp != nullptr) {
-      jfcComp->Data()[0] = 2.5 * this->dataPtr->rotors[i].direction_k;
+      jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
     }
   }
 }

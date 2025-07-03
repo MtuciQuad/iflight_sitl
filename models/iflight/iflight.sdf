@@ -21,6 +21,12 @@
 					</box>
 				</geometry>
 			</collision>
+			<sensor name="imu_sensor" type="imu"> <!-- Перенести в отдельный link -->
+				<always_on>1</always_on>
+				<visualize>1</visualize>
+				<update_rate>1000</update_rate>
+				<topic>imu</topic>
+			</sensor>
 			<visual name="body_visual">
 				<geometry>
 					<box>
@@ -77,12 +83,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_0_blade_0_collision">
+			<!-- <collision name="rotor_0_blade_0_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_0_blade_0_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -106,12 +112,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_0_blade_1_collision">
+			<!-- <collision name="rotor_0_blade_1_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_0_blade_1_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -135,12 +141,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_0_blade_2_collision">
+			<!-- <collision name="rotor_0_blade_2_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_0_blade_2_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -228,12 +234,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_1_blade_0_collision">
+			<!-- <collision name="rotor_1_blade_0_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_1_blade_0_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -257,12 +263,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_1_blade_1_collision">
+			<!-- <collision name="rotor_1_blade_1_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_1_blade_1_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -286,12 +292,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_1_blade_2_collision">
+			<!-- <collision name="rotor_1_blade_2_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_1_blade_2_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -378,12 +384,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_2_blade_0_collision">
+			<!-- <collision name="rotor_2_blade_0_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_2_blade_0_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -407,12 +413,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_2_blade_1_collision">
+			<!-- <collision name="rotor_2_blade_1_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_2_blade_1_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -436,12 +442,12 @@
                 </inertia>
 				<mass>0.0003125</mass>
 			</inertial>
-			<collision name="rotor_2_blade_2_collision">
+			<!-- <collision name="rotor_2_blade_2_collision">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
 					<box><size>0.01 0.035 0.001</size></box>
 				</geometry>
-			</collision>
+			</collision> -->
 			<visual name="rotor_2_blade_2_visual">
 				<pose>0 0.0175 0 0 0 0</pose>
 				<geometry>
@@ -863,5 +869,9 @@
                 <direction_k>-1</direction_k>
             </rotor>
 		</plugin>
+
+		<plugin filename="gz-sim-imu-system"
+	        name="gz::sim::systems::Imu">
+	</plugin>
 	</model>
 </sdf>

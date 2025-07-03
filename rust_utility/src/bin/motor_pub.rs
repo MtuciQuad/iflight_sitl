@@ -7,7 +7,7 @@ fn main() {
     let mut publisher: gz::transport::Publisher<Float_V> = node.advertise("MotorData").unwrap();
 
     for i in 0..100 {
-        let v: Vec<f32> = vec![1.0, 2.0, 9.67, 98.7];
+        let v: Vec<f32> = vec![2.0, 2.0, 2.0, 2.0];
         let topic = Float_V {
             data: v,
             ..Default::default()

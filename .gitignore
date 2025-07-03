@@ -10,3 +10,4 @@ tools/log/
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/intellisense.h
+*/target/
