@@ -22,6 +22,7 @@
 				</geometry>
 			</collision>
 			<sensor name="imu_sensor" type="imu"> <!-- Перенести в отдельный link -->
+			<pose degrees="true">0 0 0 0 0 90</pose>
 				<always_on>1</always_on>
 				<visualize>1</visualize>
 				<update_rate>1000</update_rate>
@@ -872,6 +873,6 @@
 
 		<plugin filename="gz-sim-imu-system"
 	        name="gz::sim::systems::Imu">
-	</plugin>
+		</plugin>
 	</model>
 </sdf>

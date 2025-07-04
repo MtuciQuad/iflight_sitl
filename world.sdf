@@ -2,10 +2,19 @@
 <sdf version="1.9">
 	<world name="iflight_world">
 		<!-- Maybe will change the type -->
+		<!-- <plugin filename="gz-sim-physics-system"
+			name="gz::sim::systems::Physics">
+		</plugin>
+		 -->
 		<physics type="ode">
 			<max_step_size>0.00025</max_step_size>
 			<real_time_factor>1.0</real_time_factor>
 		</physics>
+
+		<!-- <plugin filename="gz-sim-imu-system"
+	        name="gz::sim::systems::Imu">
+		</plugin> -->
+		
 		<!-- <gui fullscreen="0">
 			<plugin filename="MinimalScene" name="3D View">
 				<gz-gui>

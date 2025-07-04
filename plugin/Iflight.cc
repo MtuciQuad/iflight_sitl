@@ -34,7 +34,7 @@ class Rotor
   public: std::string jointName;
   public: gz::sim::Entity joint;
   public: int direction_k;
-  public: double currentForce = 4.0;
+  public: double currentForce = 0.0;
 };
 
 
