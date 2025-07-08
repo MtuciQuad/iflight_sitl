@@ -24,7 +24,7 @@
 					<specular>0.1 0.1 0.1 1</specular>
 					<pbr>
 						<metal>
-							<albedo_map>materials/textures/floor.jpg</albedo_map>
+							<albedo_map>materials/textures/floor_1.jpg</albedo_map>
 						</metal>
 					</pbr>
 				</material>

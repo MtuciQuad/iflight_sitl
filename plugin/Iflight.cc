@@ -171,6 +171,7 @@ void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
         for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
         {
           this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k;
+          // this->dataPtr->rotors[i].currentForce = this->dataPtr->rotors[i] * 0.12;
         }
       }
     }
