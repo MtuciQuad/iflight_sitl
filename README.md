@@ -10,6 +10,7 @@ Install libs and Gazebo:
 3) Install Gazebo Harmonic (https://gazebosim.org/docs/harmonic/install_ubuntu/)
 4) ```sudo apt install libgz-cmake4-dev```
 5) ```sudo apt-get install build-essential```
+6) Install gz-transport13 (https://aur.archlinux.org/packages/gz-transport13)
 
 Clone the project:
 1) ```git clone https://github.com/HungryM1NT/Simulator_new.git```
