@@ -6,16 +6,11 @@
 #include <gz/sim/Util.hh>
 
 
-
 #include <gz/sim/System.hh>
 #include <gz/sim/Model.hh>
 #include <gz/transport/Node.hh>
 #include <gz/sim/components/JointForceCmd.hh>
-// #include <gz/sensors/ImuSensor.hh>
 #include <gz/msgs.hh>
-
-// using namespace gz::sim;
-// using namespace iflight;
 
 
 GZ_ADD_PLUGIN(
@@ -26,6 +21,7 @@ GZ_ADD_PLUGIN(
 
 GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
+// Class for each rotor
 class Rotor
 {
   public: Rotor() {}
@@ -37,22 +33,17 @@ class Rotor
   public: double currentForce = 0.0;
 };
 
-
-
 class gz::sim::systems::IflightPrivate
 {
   public: gz::sim::Model model;
+  
   public: std::vector<Rotor> rotors;
+  
   public: gz::transport::Node node;
 
   public: gz::msgs::Float_V motorMsg;
   public: bool motorMsgValid{false};
   public: std::mutex motorMsgMutex;
-  // public: gz::transport::Node::Publisher pub;
-  // public: gz::msgs::IMU imuMsg;
-  // public: gz::sim::Entity linkEntity;
-
-
 
   public: void MotorCb(const gz::msgs::Float_V &_msg)
   {
@@ -71,8 +62,6 @@ gz::sim::systems::Iflight::~Iflight()
 {
 }
 
-
-
 void gz::sim::systems::Iflight::Configure(const Entity &_entity,
     const std::shared_ptr<const sdf::Element> &_sdf,
     EntityComponentManager &_ecm,
@@ -84,21 +73,9 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   this->LoadMotors(sdfClone, _ecm);
 
   this->dataPtr->node.Subscribe("/MotorData", &gz::sim::systems::IflightPrivate::MotorCb, this->dataPtr.get());
-
-
-  // this->pub = this->node.Advertise<gz::msgs::StringMsg>("ImuData");
-  // this->node.Subscribe("/imu", &iflight::Iflight::cb, this);
-  // this->sub_node.Subscribe("/MotorForces", cb);
-  
-  // this->linkEntity = this->model.LinkByName(_ecm, "link_name");
-  // if (!_ecm.EntityHasComponentType(this->linkEntity,
-  //                                       components::WorldPose::typeId))
-  // {
-    // _ecm.CreateComponent(this->linkEntity, components::WorldPose());
-    //     gzmsg << "123" << std::endl;
-    // }
 }
 
+// Get rotors from sdf model
 void gz::sim::systems::Iflight::LoadMotors(
   sdf::ElementPtr _sdf,
   gz::sim::EntityComponentManager &_ecm)
@@ -154,42 +131,23 @@ void gz::sim::systems::Iflight::LoadMotors(
 void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::sim::EntityComponentManager &_ecm)
 {
-  std::string msg = "Hello, world! Simulation is ";
-  if (!_info.paused)
-    msg += "not ";
-  msg += "paused.";
-
   gz::msgs::Float_V motorMsg;
   {
     std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
     if (this->dataPtr->motorMsgValid)
     {
       motorMsg = this->dataPtr->motorMsg;
-      // gzmsg << this->dataPtr->motorMsg.data().size() << std::endl;
-      // gzmsg << sizeof(this->dataPtr->rotors) << std::endl;
       if (motorMsg.data().size() == 4) {
         for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
         {
           this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k;
-          // this->dataPtr->rotors[i].currentForce = this->dataPtr->rotors[i] * 0.12;
         }
       }
     }
     this->ApplyMotorForces(_ecm);
   }
   
-  // gzmsg << imuMsg << std::endl;
-  // this->sub_node.Subscribe("/imu", cb);
-  
-  // gz::msgs::StringMsg gz_msg;
-  // gz_msg.set_data("HELLO");
-  // this->pub.Publish(gz_msg);
-  // gzmsg << msg << std::endl;
-  
-  // if (!this->node.Subscribe("/imu", cb))
-  // {
-  //   gzmsg << "Error subscribing to topic" << std::endl;
-  // }
+  // gzmsg << "123" << std::endl;
 }
 
 void gz::sim::systems::Iflight::ApplyMotorForces(
@@ -204,31 +162,3 @@ void gz::sim::systems::Iflight::ApplyMotorForces(
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-// void Iflight::publishImuData() {
-//     float imuData[] = {
-//       (float)(imuMsg.linear_acceleration().y() / 10.0),
-//       -(float)(imuMsg.linear_acceleration().x() / 10.0),
-//       (float)(imuMsg.linear_acceleration().z() / 10.0),
-// 			-(float)(imuMsg.angular_velocity().y()),
-//       (float)(imuMsg.angular_velocity().x()),
-//       -(float)(imuMsg.angular_velocity().z())
-//     };
-
-//     // gzmsg << imuData[0] << std::endl;
-// }

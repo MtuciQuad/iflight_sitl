@@ -5,7 +5,7 @@ fn main() {
     let mut node = Node::new().unwrap();
     assert!(node.subscribe("/RcData", |msg: Float_V| {
         let data = msg.data;
-        
+        println!("{:?}", data);
     }));
     gz::transport::wait_for_shutdown();
 }

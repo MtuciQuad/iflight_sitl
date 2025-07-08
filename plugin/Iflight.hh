@@ -39,16 +39,6 @@ namespace gz
                           gz::sim::EntityComponentManager &_ecm);
 
       private: void ApplyMotorForces(gz::sim::EntityComponentManager &_ecm);
-
-
-      // public: void cb(const gz::msgs::IMU &_msg)
-      // {
-      //   // std::cout << "123" << std::endl;
-      //   this->imuMsg = _msg;
-      //   // std::cout << "Msg: " << _msg << std::endl << std::endl;
-      // };
-
-      // public: void publishImuData();
       };
     }
   }
