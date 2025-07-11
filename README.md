@@ -14,8 +14,8 @@ Install libs and Gazebo:
 7) For RC move 99-usb-all.rules in /etc/udev/rules.d/
 
 Clone the project:
-1) ```git clone https://github.com/HungryM1NT/Simulator_new.git```
-2) ```cd Simulator_new```
+1) ```git clone https://github.com/MtuciQuad/iflight_sitl.git```
+2) ```cd iflight_sitl```
 
 Run simulator:
 ```
