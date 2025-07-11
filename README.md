@@ -10,7 +10,8 @@ Install libs and Gazebo:
 3) Install Gazebo Harmonic (https://gazebosim.org/docs/harmonic/install_ubuntu/)
 4) ```sudo apt install libgz-cmake4-dev```
 5) ```sudo apt-get install build-essential```
-6) Install gz-transport13 (https://aur.archlinux.org/packages/gz-transport13)
+6) Install gz-transport13 in main OS (for Arch: https://aur.archlinux.org/packages/gz-transport13)
+7) For RC move 99-usb-all.rules in /etc/udev/rules.d/
 
 Clone the project:
 1) ```git clone https://github.com/HungryM1NT/Simulator_new.git```
