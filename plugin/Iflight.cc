@@ -147,18 +147,26 @@ void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     this->ApplyMotorForces(_ecm);
   }
   
-  // gzmsg << "123" << std::endl;
+  // gzmsg << this->dataPtr->rotors[0].currentForce << std::endl;
 }
 
 void gz::sim::systems::Iflight::ApplyMotorForces(
   gz::sim::EntityComponentManager &_ecm)
 {
+  // gzmsg << this->dataPtr->rotors.size() << std::endl;
   for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
   {
+    // gzmsg << this->dataPtr->rotors[i].joint << std::endl;
     gz::sim::components::JointForceCmd* jfcComp = nullptr;
     jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
-    if (jfcComp != nullptr) {
-      jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
-    }
+    if (jfcComp == nullptr)
+      {
+        jfcComp = _ecm.CreateComponent(this->dataPtr->rotors[i].joint,
+            gz::sim::components::JointForceCmd({0}));
+      }
+    // if (jfcComp != nullptr) {
+    // }
+    jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
+    
   }
 }

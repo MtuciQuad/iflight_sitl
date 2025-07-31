@@ -1,0 +1,752 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+	<model name="iflight_multi">		
+        <link name="body">
+			<inertial>
+                <pose>0 0 0 0 0 0</pose>
+				<mass>0.392</mass>
+				<inertia>
+					<ixx>0.0003985</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+					<iyy>0.0003985</iyy>
+					<iyz>0.0</iyz>
+                    <izz>0.0007905</izz>
+				</inertia>
+			</inertial>
+			<collision name="collision">
+				<geometry>
+					<box>
+						<size>0.11 0.11 0.01</size>
+					</box>
+				</geometry>
+			</collision>
+			<sensor name="imu_sensor" type="imu"> <!-- Перенести в отдельный link -->
+			<pose degrees="true">0 0 0 0 0 90</pose>
+				<always_on>1</always_on>
+				<visualize>1</visualize>
+				<update_rate>1000</update_rate>
+				<topic>imu</topic>
+			</sensor>
+			<visual name="body_visual">
+				<geometry>
+					<box>
+						<size>0.11 0.11 0.01</size>
+					</box>
+				</geometry>
+				<material>
+					<ambient>0.5 0.5 0.6 1</ambient>
+					<diffuse>0.5 0.5 0.6 1</diffuse>
+					<specular>0 0 0 1</specular>
+					<emissive>0 0 0 1</emissive>
+				</material>
+			</visual>
+		</link>
+
+        <link name="rotor_0_base">
+			<pose>-0.05 0.05 0.0075 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<inertia>
+                    <ixx>1.393E-9</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>1.393E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>9.766E-10</izz>
+                </inertia>
+                <mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_0_base_collision">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_0_base_visual">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_0_blade_0">
+			<pose>-0.05 0.05 0.01 0 0 0</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_0_blade_0_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_0_blade_0_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_0_blade_1">
+			<pose>-0.05 0.05 0.01 0 0 2.094395</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_0_blade_1_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_0_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_0_blade_2">
+			<pose>-0.05 0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_0_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_0_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+		<joint name="rotor_0_base_joint" type="revolute">
+			<parent>body</parent>
+			<child>rotor_0_base</child>
+			<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+			<axis>
+			<limit>
+				<lower>-1e16</lower>
+				<upper>1e16</upper>
+			</limit>
+			<xyz>0.0 0.0 -1.0</xyz>
+			<dynamics>
+				<damping>0.0001</damping>
+			</dynamics>
+			</axis>
+			<physics>
+				<ode>
+				<cfm_damping>1</cfm_damping>
+				</ode>
+			</physics>
+		</joint>
+        <joint name="rotor_0_blade_0_joint" type="fixed">
+			<parent>rotor_0_base</parent>
+			<child>rotor_0_blade_0</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_0_blade_1_joint" type="fixed">
+			<parent>rotor_0_base</parent>
+			<child>rotor_0_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_0_blade_2_joint" type="fixed">
+			<parent>rotor_0_base</parent>
+			<child>rotor_0_blade_2</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+
+
+        <link name="rotor_1_base">
+			<pose>-0.05 -0.05 0.0075 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<inertia>
+                    <ixx>1.393E-9</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>1.393E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>9.766E-10</izz>
+                </inertia>
+                <mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_1_base_collision">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_1_base_visual">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_1_blade_0">
+			<pose>-0.05 -0.05 0.01 0 0 0</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_1_blade_0_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_1_blade_0_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_1_blade_1">
+			<pose>-0.05 -0.05 0.01 0 0 2.094395</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_1_blade_1_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_1_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_1_blade_2">
+			<pose>-0.05 -0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_1_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_1_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>0.8 0.3 0.3 0.5</ambient><diffuse>0.8 0.3 0.3 0.5</diffuse></material>
+			</visual>
+		</link>
+
+		<joint name="rotor_1_base_joint" type="revolute">
+			<parent>body</parent>
+			<child>rotor_1_base</child>
+			<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+			<axis>
+			<limit>
+				<lower>-1e16</lower>
+				<upper>1e16</upper>
+			</limit>
+			<xyz>0.0 0.0 -1.0</xyz>
+			<dynamics>
+				<damping>0.0001</damping>
+			</dynamics>
+			</axis>
+			<physics>
+				<ode>
+				<cfm_damping>1</cfm_damping>
+				</ode>
+			</physics>
+		</joint>
+        <joint name="rotor_1_blade_0_joint" type="fixed">
+			<parent>rotor_1_base</parent>
+			<child>rotor_1_blade_0</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_1_blade_1_joint" type="fixed">
+			<parent>rotor_1_base</parent>
+			<child>rotor_1_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_1_blade_2_joint" type="fixed">
+			<parent>rotor_1_base</parent>
+			<child>rotor_1_blade_2</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+
+        <link name="rotor_2_base">
+			<pose>0.05 -0.05 0.0075 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<inertia>
+                    <ixx>1.393E-9</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>1.393E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>9.766E-10</izz>
+                </inertia>
+                <mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_2_base_collision">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_2_base_visual">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_2_blade_0">
+			<pose>0.05 -0.05 0.01 0 0 0</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_2_blade_0_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_2_blade_0_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_2_blade_1">
+			<pose>0.05 -0.05 0.01 0 0 2.094395</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_2_blade_1_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_2_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_2_blade_2">
+			<pose>0.05 -0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_2_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_2_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+		<joint name="rotor_2_base_joint" type="revolute">
+			<parent>body</parent>
+			<child>rotor_2_base</child>
+			<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+			<axis>
+			<limit>
+				<lower>-1e16</lower>
+				<upper>1e16</upper>
+			</limit>
+			<xyz>0.0 0.0 -1.0</xyz>
+			<dynamics>
+				<damping>0.0001</damping>
+			</dynamics>
+			</axis>
+			<physics>
+				<ode>
+				<cfm_damping>1</cfm_damping>
+				</ode>
+			</physics>
+		</joint>
+        <joint name="rotor_2_blade_0_joint" type="fixed">
+			<parent>rotor_2_base</parent>
+			<child>rotor_2_blade_0</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_2_blade_1_joint" type="fixed">
+			<parent>rotor_2_base</parent>
+			<child>rotor_2_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_2_blade_2_joint" type="fixed">
+			<parent>rotor_2_base</parent>
+			<child>rotor_2_blade_2</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+
+        <link name="rotor_3_base">
+			<pose>0.05 0.05 0.0075 0 0 0</pose>
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<inertia>
+                    <ixx>1.393E-9</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>1.393E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>9.766E-10</izz>
+                </inertia>
+                <mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_3_base_collision">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_3_base_visual">
+				<geometry>
+					<cylinder><radius>0.0025</radius><length>0.005</length></cylinder>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_3_blade_0">
+			<pose>0.05 0.05 0.01 0 0 0</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_3_blade_0_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_3_blade_0_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_3_blade_1">
+			<pose>0.05 0.05 0.01 0 0 2.094395</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_3_blade_1_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_3_blade_1_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+        <link name="rotor_3_blade_2">
+			<pose>0.05 0.05 0.01 0 0 4.188790</pose>
+			<inertial>
+				<pose>0.0 0.0175 0 0.0 0.0 0.0</pose>
+                <inertia>
+                    <ixx>3.193E-8</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>2.63E-9</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>3.4505E-8</izz>
+                </inertia>
+				<mass>0.0003125</mass>
+			</inertial>
+			<!-- <collision name="rotor_3_blade_2_collision">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+			</collision> -->
+			<visual name="rotor_3_blade_2_visual">
+				<pose>0 0.0175 0 0 0 0</pose>
+				<geometry>
+					<box><size>0.01 0.035 0.001</size></box>
+				</geometry>
+				<material><ambient>1 1 1 0.5</ambient><diffuse>1 1 1 0.5</diffuse></material>
+			</visual>
+		</link>
+
+		<joint name="rotor_3_base_joint" type="revolute">
+			<parent>body</parent>
+			<child>rotor_3_base</child>
+			<pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+			<axis>
+			<limit>
+				<lower>-1e16</lower>
+				<upper>1e16</upper>
+			</limit>
+			<xyz>0.0 0.0 -1.0</xyz>
+			<dynamics>
+				<damping>0.0001</damping>
+			</dynamics>
+			</axis>
+			<physics>
+				<ode>
+				<cfm_damping>1</cfm_damping>
+				</ode>
+			</physics>
+		</joint>
+        <joint name="rotor_3_blade_0_joint" type="fixed">
+			<parent>rotor_3_base</parent>
+			<child>rotor_3_blade_0</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_3_blade_1_joint" type="fixed">
+			<parent>rotor_3_base</parent>
+			<child>rotor_3_blade_1</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+        <joint name="rotor_3_blade_2_joint" type="fixed">
+			<parent>rotor_3_base</parent>
+			<child>rotor_3_blade_2</child>
+			<pose>0 0 0 0 0 0</pose>
+		</joint>
+
+
+        <plugin filename="Iflight" name="Iflight">
+            <rotor index="2">
+                <joint_name>rotor_2_base_joint</joint_name>
+                <direction_k>1</direction_k>
+            </rotor>
+            <rotor index="3">
+                <joint_name>rotor_3_base_joint</joint_name>
+                <direction_k>-1</direction_k>
+            </rotor>
+            <rotor index="0">
+                <joint_name>rotor_0_base_joint</joint_name>
+                <direction_k>1</direction_k>
+            </rotor>
+            <rotor index="1">
+                <joint_name>rotor_1_base_joint</joint_name>
+                <direction_k>-1</direction_k>
+            </rotor>
+		</plugin>
+
+		<plugin
+			filename="ignition-gazebo-multicopter-motor-model-system"
+			name="gz::sim::systems::MulticopterMotorModel">
+			<!-- <robotNamespace>X3</robotNamespace> -->
+			<jointName>X3/rotor_0_joint</jointName>
+			<linkName>X3/rotor_0</linkName>
+			<turningDirection>ccw</turningDirection>
+			<timeConstantUp>0.0125</timeConstantUp>
+			<timeConstantDown>0.025</timeConstantDown>
+			<maxRotVelocity>800.0</maxRotVelocity>
+			<motorConstant>8.54858e-06</motorConstant>
+			<momentConstant>0.016</momentConstant>
+			<commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+			<motorNumber>0</motorNumber>
+			<rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+			<rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+			<motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+			<rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+			<motorType>velocity</motorType>
+		</plugin>
+		<plugin
+			filename="ignition-gazebo-multicopter-motor-model-system"
+			name="gz::sim::systems::MulticopterMotorModel">
+			<robotNamespace>X3</robotNamespace>
+			<jointName>X3/rotor_1_joint</jointName>
+			<linkName>X3/rotor_1</linkName>
+			<turningDirection>ccw</turningDirection>
+			<timeConstantUp>0.0125</timeConstantUp>
+			<timeConstantDown>0.025</timeConstantDown>
+			<maxRotVelocity>800.0</maxRotVelocity>
+			<motorConstant>8.54858e-06</motorConstant>
+			<momentConstant>0.016</momentConstant>
+			<commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+			<motorNumber>1</motorNumber>
+			<rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+			<rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+			<motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+			<rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+			<motorType>velocity</motorType>
+		</plugin>
+		<plugin
+			filename="ignition-gazebo-multicopter-motor-model-system"
+			name="gz::sim::systems::MulticopterMotorModel">
+			<robotNamespace>X3</robotNamespace>
+			<jointName>X3/rotor_2_joint</jointName>
+			<linkName>X3/rotor_2</linkName>
+			<turningDirection>cw</turningDirection>
+			<timeConstantUp>0.0125</timeConstantUp>
+			<timeConstantDown>0.025</timeConstantDown>
+			<maxRotVelocity>8000.0</maxRotVelocity>
+			<motorConstant>8.54858e-06</motorConstant>
+			<momentConstant>0.016</momentConstant>
+			<commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+			<motorNumber>2</motorNumber>
+			<rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+			<rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+			<motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+			<rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+			<motorType>velocity</motorType>
+		</plugin>
+		<plugin
+			filename="ignition-gazebo-multicopter-motor-model-system"
+			name="gz::sim::systems::MulticopterMotorModel">
+			<robotNamespace>X3</robotNamespace>
+			<jointName>X3/rotor_3_joint</jointName>
+			<linkName>X3/rotor_3</linkName>
+			<turningDirection>cw</turningDirection>
+			<timeConstantUp>0.0125</timeConstantUp>
+			<timeConstantDown>0.025</timeConstantDown>
+			<maxRotVelocity>8000.0</maxRotVelocity>
+			<motorConstant>8.54858e-06</motorConstant>
+			<momentConstant>0.016</momentConstant>
+			<commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+			<motorNumber>3</motorNumber>
+			<rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+			<rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+			<motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+			<rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+			<motorType>velocity</motorType>
+		</plugin>
+
+		<plugin filename="gz-sim-imu-system"
+	        name="gz::sim::systems::Imu">
+		</plugin>
+	</model>
+</sdf>

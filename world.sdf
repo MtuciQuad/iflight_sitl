@@ -45,7 +45,7 @@
 			<uri>floor</uri>
 		</include>
 		<include>
-			<uri>iflight</uri>
+			<uri>iris</uri>
 			<pose>0 0 0.3 0 0 0</pose>
 		</include>
 	</world>
