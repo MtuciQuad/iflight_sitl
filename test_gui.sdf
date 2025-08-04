@@ -1,46 +1,24 @@
-<?xml version="1.0"?>
-<sdf version="1.9">
+<sdf version="1.10">
 	<world name="iflight_world">
-		<!-- Maybe will change the type -->
-		<!-- <plugin filename="gz-sim-physics-system"
-			name="gz::sim::systems::Physics">
-		</plugin>
-		 -->
 		<physics type="ignored">
-			<max_step_size>0.0005</max_step_size>
+			<max_step_size>0.001</max_step_size>
 			<real_time_factor>1.0</real_time_factor>
 		</physics>
-		<plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+        <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
         <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
             <render_engine>ogre2</render_engine>
         </plugin>
         <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
         <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
-
-		<!-- <plugin filename="gz-sim-imu-system"
-	        name="gz::sim::systems::Imu">
-		</plugin> -->
-		
-		<!-- <gui fullscreen="0">
-			<plugin filename="MinimalScene" name="3D View">
-				<gz-gui>
-					<title>3D View</title>
-					<property type="bool" key="showTitleBar">false</property>
-					<property type="string" key="state">docked</property>
-				</gz-gui>
-				<engine>ogre2</engine>
-				<scene>scene</scene>
-				<ambient_light>0.4 0.4 0.4</ambient_light>
-				<background_color>0.8 0.8 0.8</background_color>
-				<camera_pose>-0.6 0 0.6 0 0.3 0</camera_pose>
-				<camera_clip>
-					<near>0.25</near>
-					<far>25000</far>
-				</camera_clip>
-			</plugin>
-		</gui> -->
-
-		<gui fullscreen='false'>
+        <scene>
+            <ambient>1 1 1 1</ambient>
+            <background>0.800000012 0.800000012 0.800000012 1</background>
+            <grid>true</grid>
+            <shadows>true</shadows>
+            <sky/>
+        </scene>
+        
+        <gui fullscreen='false'>
             <plugin name='3D View' filename='MinimalScene'>
                 <gz-gui>
                 <title>3D View</title>
@@ -142,18 +120,34 @@
                 </gz-gui>
             </plugin>
         </gui>
-		<scene>
-			<ambient>1 1 1 1</ambient>
-			<sky/>
-			<origin_visual>false</origin_visual>
-			<grid>false</grid>
-		</scene>
-		<include>
-			<uri>floor</uri>
-		</include>
-		<include>
-			<uri>iris</uri>
-			<pose>0 0 0.3 0 0 0</pose>
-		</include>
+        <model name="camera_model">
+            <link name="camera_link">
+            <pose>0 0 1 0 0 0</pose>
+            <visual name="visual">
+                <geometry>
+                <box>
+                    <size>0.1 0.1 0.1</size>
+                </box>
+                </geometry>
+            </visual>
+            <sensor name="camera" type="camera">
+                <camera>
+                <horizontal_fov>1.047</horizontal_fov>
+                <image>
+                    <width>320</width>
+                    <height>240</height>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>100</far>
+                </clip>
+                </camera>
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <visualize>true</visualize>
+                <topic>camera</topic>
+            </sensor>
+            </link>
+        </model>
 	</world>
 </sdf>
