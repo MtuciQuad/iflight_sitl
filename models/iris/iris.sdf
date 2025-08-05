@@ -24,7 +24,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>0.084 0 0</cp>
-      <forward>0 1 0</forward>
+      <forward>0 -1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_0</link_name>
     </plugin>
@@ -41,7 +41,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>-0.084 0 0</cp>
-      <forward>0 -1 0</forward>
+      <forward>0 1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_0</link_name>
     </plugin>
@@ -59,7 +59,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>0.084 0 0</cp>
-      <forward>0 1 0</forward>
+      <forward>0 -1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_1</link_name>
     </plugin>
@@ -76,7 +76,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>-0.084 0 0</cp>
-      <forward>0 -1 0</forward>
+      <forward>0 1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_1</link_name>
     </plugin>
@@ -94,7 +94,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>0.084 0 0</cp>
-      <forward>0 -1 0</forward>
+      <forward>0 1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_2</link_name>
     </plugin>
@@ -111,7 +111,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>-0.084 0 0</cp>
-      <forward>0 1 0</forward>
+      <forward>0 -1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_2</link_name>
     </plugin>
@@ -129,7 +129,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>0.084 0 0</cp>
-      <forward>0 -1 0</forward>
+      <forward>0 1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_3</link_name>
     </plugin>
@@ -146,7 +146,7 @@
       <area>0.002</area>
       <air_density>1.2041</air_density>
       <cp>-0.084 0 0</cp>
-      <forward>0 1 0</forward>
+      <forward>0 -1 0</forward>
       <upward>0 0 1</upward>
       <link_name>iris_with_standoffs::rotor_3</link_name>
     </plugin>
@@ -171,19 +171,19 @@
 	<plugin filename="Iflight" name="Iflight">
 		<rotor index="0">
 			<joint_name>iris_with_standoffs::rotor_0_joint</joint_name>
-			<direction_k>1</direction_k>
+			<direction_k>-1</direction_k>
 		</rotor>
 		<rotor index="2">
 			<joint_name>iris_with_standoffs::rotor_2_joint</joint_name>
-			<direction_k>-1</direction_k>
+			<direction_k>1</direction_k>
 		</rotor>
 		<rotor index="1">
 			<joint_name>iris_with_standoffs::rotor_1_joint</joint_name>
-			<direction_k>1</direction_k>
+			<direction_k>-1</direction_k>
 		</rotor>
 		<rotor index="3">
 			<joint_name>iris_with_standoffs::rotor_3_joint</joint_name>
-			<direction_k>-1</direction_k>
+			<direction_k>1</direction_k>
 		</rotor>
 	</plugin>
   </model>
