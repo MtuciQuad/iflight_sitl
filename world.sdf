@@ -146,13 +146,13 @@
 			<ambient>1 1 1 1</ambient>
 			<sky/>
 			<origin_visual>false</origin_visual>
-			<grid>true</grid>
+			<grid>false</grid>
 		</scene>
 		<!-- <include>
 			<uri>floor</uri>
 		</include> -->
         
-        <model name="ground_plane">
+        <!-- <model name="ground_plane">
             <static>true</static>
             <link name="link">
                 <collision name="collision">
@@ -177,10 +177,23 @@
                 </material>
                 </visual>
             </link>
-        </model>
+        </model> -->
 		<include>
 			<uri>iris</uri>
-			<pose>0 0 0.3 0 0 0</pose>
+			<pose>1 0 0.3 0 0 0</pose>
 		</include>
+        <include>
+            <uri>
+                https://fuel.gazebosim.org/1.0/saurav/models/simple_baylands
+            </uri>
+            <name>park</name>
+            <pose>250 200 -1 0 0 -0.45</pose>
+        </include>
+        <!-- <include>
+            <uri>
+                https://fuel.gazebosim.org/1.0/OpenRobotics/models/Coast Water
+            </uri>
+            <pose relative_to="park">0 0 -2 0 0 0 </pose>
+        </include> -->
 	</world>
 </sdf>

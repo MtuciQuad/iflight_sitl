@@ -1,0 +1,845 @@
+<sdf version='1.10'>
+  <world name='iflight_world'>
+    <physics type='ignored'>
+      <max_step_size>0.00050000000000000001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <gui fullscreen='false'>
+      <plugin name='3D View' filename='MinimalScene'>
+        <gz-gui>
+          <title>3D View</title>
+          <property type='bool' key='showTitleBar'>false</property>
+          <property type='string' key='state'>docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6 0 6 0 0.5 0</camera_pose>
+      </plugin>
+      <plugin name='Entity context menu' filename='EntityContextMenuPlugin'>
+        <gz-gui>
+          <property key='state' type='string'>floating</property>
+          <property key='width' type='double'>5</property>
+          <property key='height' type='double'>5</property>
+          <property key='showTitleBar' type='bool'>false</property>
+        </gz-gui>
+      </plugin>
+      <plugin name='Scene Manager' filename='GzSceneManager'>
+        <gz-gui>
+          <property key='resizable' type='bool'>false</property>
+          <property key='width' type='double'>5</property>
+          <property key='height' type='double'>5</property>
+          <property key='state' type='string'>floating</property>
+          <property key='showTitleBar' type='bool'>false</property>
+        </gz-gui>
+      </plugin>
+      <plugin name='Interactive view control' filename='InteractiveViewControl'>
+        <gz-gui>
+          <property key='resizable' type='bool'>false</property>
+          <property key='width' type='double'>5</property>
+          <property key='height' type='double'>5</property>
+          <property key='state' type='string'>floating</property>
+          <property key='showTitleBar' type='bool'>false</property>
+        </gz-gui>
+      </plugin>
+      <plugin name='Camera Tracking' filename='CameraTracking'>
+        <gz-gui>
+          <property key='resizable' type='bool'>false</property>
+          <property key='width' type='double'>5</property>
+          <property key='height' type='double'>5</property>
+          <property key='state' type='string'>floating</property>
+          <property key='showTitleBar' type='bool'>false</property>
+        </gz-gui>
+      </plugin>
+      <plugin name='World control' filename='WorldControl'>
+        <gz-gui>
+          <title>World control</title>
+          <property type='bool' key='showTitleBar'>false</property>
+          <property type='bool' key='resizable'>false</property>
+          <property type='double' key='height'>72</property>
+          <property type='double' key='z'>1</property>
+          <property type='string' key='state'>floating</property>
+          <anchors target='3D View'>
+            <line own='left' target='left'/>
+            <line own='bottom' target='bottom'/>
+          </anchors>
+        </gz-gui>
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <use_event>true</use_event>
+      </plugin>
+      <plugin name='World stats' filename='WorldStats'>
+        <gz-gui>
+          <title>World stats</title>
+          <property type='bool' key='showTitleBar'>false</property>
+          <property type='bool' key='resizable'>false</property>
+          <property type='double' key='height'>110</property>
+          <property type='double' key='width'>290</property>
+          <property type='double' key='z'>1</property>
+          <property type='string' key='state'>floating</property>
+          <anchors target='3D View'>
+            <line own='right' target='right'/>
+            <line own='bottom' target='bottom'/>
+          </anchors>
+        </gz-gui>
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+      </plugin>
+      <plugin name='Image Display' filename='ImageDisplay'>
+        <gz-gui>
+          <property key='state' type='string'>docked</property>
+        </gz-gui>
+        <topic>camera</topic>
+      </plugin>
+      <plugin name='Component inspector' filename='ComponentInspector'>
+        <gz-gui>
+          <property type='string' key='state'>docked</property>
+        </gz-gui>
+      </plugin>
+      <plugin name='Entity tree' filename='EntityTree'>
+        <gz-gui>
+          <property type='string' key='state'>docked</property>
+        </gz-gui>
+      </plugin>
+    </gui>
+    <scene>
+      <ambient>1 1 1 1</ambient>
+      <sky/>
+      <origin_visual>false</origin_visual>
+      <grid>false</grid>
+      <background>0.699999988 0.699999988 0.699999988 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <gravity>0 0 -9.8000000000000007</gravity>
+    <magnetic_field>5.5644999999999998e-06 2.2875799999999999e-05 -4.2388400000000002e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <model name='iris_with_ardupilot'>
+      <model name='iris_with_standoffs'>
+        <pose>0 0 0 0 0 0</pose>
+        <link name='base_link'>
+          <velocity_decay>
+            <linear>0</linear>
+            <angular>0</angular>
+          </velocity_decay>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>1.5</mass>
+            <inertia>
+              <ixx>0.0080000000000000002</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0.014999999999999999</iyy>
+              <iyz>0</iyz>
+              <izz>0.017000000000000001</izz>
+            </inertia>
+          </inertial>
+          <collision name='base_collision'>
+            <pose>0 0 -0.080000000000000002 0 0 0</pose>
+            <geometry>
+              <box>
+                <size>0.46999999999999997 0.46999999999999997 0.23000000000000001</size>
+              </box>
+            </geometry>
+            <surface>
+              <contact>
+                <ode>
+                  <max_vel>100</max_vel>
+                  <min_depth>0.001</min_depth>
+                </ode>
+              </contact>
+              <friction>
+                <ode>
+                  <mu>100000</mu>
+                  <mu2>100000</mu2>
+                </ode>
+              </friction>
+              <bounce/>
+            </surface>
+          </collision>
+          <visual name='base_visual'>
+            <geometry>
+              <mesh>
+                <uri>model://iris_with_standoffs/meshes/iris.dae</uri>
+              </mesh>
+            </geometry>
+            <material>
+              <ambient>0.0500000007 0.0500000007 0.0500000007 1</ambient>
+              <diffuse>0.0500000007 0.0500000007 0.0500000007 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <visual name='front_left_leg_visual'>
+            <pose>0.123 0.22 -0.11 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <radius>0.0050000000000000001</radius>
+                <length>0.17000000000000001</length>
+              </cylinder>
+            </geometry>
+            <material>
+              <ambient>0.0500000007 0.0500000007 0.0500000007 1</ambient>
+              <diffuse>0.0500000007 0.0500000007 0.0500000007 1</diffuse>
+              <specular>0.00999999978 0.00999999978 0.00999999978 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <visual name='front_right_leg_visual'>
+            <pose>0.123 -0.22 -0.11 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <radius>0.0050000000000000001</radius>
+                <length>0.17000000000000001</length>
+              </cylinder>
+            </geometry>
+            <material>
+              <ambient>0.0500000007 0.0500000007 0.0500000007 1</ambient>
+              <diffuse>0.0500000007 0.0500000007 0.0500000007 1</diffuse>
+              <specular>0.00999999978 0.00999999978 0.00999999978 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <visual name='rear_left_leg_visual'>
+            <pose>-0.14000000000000001 0.20999999999999999 -0.11 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <radius>0.0050000000000000001</radius>
+                <length>0.17000000000000001</length>
+              </cylinder>
+            </geometry>
+            <material>
+              <ambient>0.0500000007 0.0500000007 0.0500000007 1</ambient>
+              <diffuse>0.0500000007 0.0500000007 0.0500000007 1</diffuse>
+              <specular>0.00999999978 0.00999999978 0.00999999978 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <visual name='rear_right_leg_visual'>
+            <pose>-0.14000000000000001 -0.20999999999999999 -0.11 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <radius>0.0050000000000000001</radius>
+                <length>0.17000000000000001</length>
+              </cylinder>
+            </geometry>
+            <material>
+              <ambient>0.0500000007 0.0500000007 0.0500000007 1</ambient>
+              <diffuse>0.0500000007 0.0500000007 0.0500000007 1</diffuse>
+              <specular>0.00999999978 0.00999999978 0.00999999978 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+        </link>
+        <link name='imu_link'>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.14999999999999999</mass>
+            <inertia>
+              <ixx>1.0000000000000001e-05</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>2.0000000000000002e-05</iyy>
+              <iyz>0</iyz>
+              <izz>2.0000000000000002e-05</izz>
+            </inertia>
+          </inertial>
+          <sensor name='imu_sensor' type='imu'>
+            <pose degrees='true'>0 0 0   0 0 89.999999999999986</pose>
+            <always_on>true</always_on>
+            <update_rate>1000</update_rate>
+            <topic>imu</topic>
+            <imu/>
+          </sensor>
+        </link>
+        <link name='camera_link'>
+          <pose degrees='true'>-2 0 1.2   0 20.000000000000011 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0</mass>
+          </inertial>
+          <sensor name='camera' type='camera'>
+            <camera>
+              <horizontal_fov>1.0469999999999999</horizontal_fov>
+              <image>
+                <width>320</width>
+                <height>240</height>
+              </image>
+              <clip>
+                <near>0.10000000000000001</near>
+                <far>100</far>
+              </clip>
+            </camera>
+            <always_on>true</always_on>
+            <update_rate>120</update_rate>
+            <visualize>true</visualize>
+            <topic>camera</topic>
+          </sensor>
+        </link>
+        <joint name='imu_joint' type='revolute'>
+          <child>imu_link</child>
+          <parent>base_link</parent>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>0</lower>
+              <upper>0</upper>
+              <effort>0</effort>
+              <velocity>0</velocity>
+            </limit>
+            <dynamics>
+              <damping>1</damping>
+              <spring_reference>0</spring_reference>
+              <spring_stiffness>0</spring_stiffness>
+            </dynamics>
+          </axis>
+        </joint>
+        <joint name='camera_joint' type='fixed'>
+          <child>camera_link</child>
+          <parent>base_link</parent>
+        </joint>
+        <link name='rotor_0'>
+          <pose>0.13 -0.22 0.023 0 0 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.025000000000000001</mass>
+            <inertia>
+              <ixx>9.7499999999999998e-06</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0.00016670399999999999</iyy>
+              <iyz>0</iyz>
+              <izz>0.00016760399999999999</izz>
+            </inertia>
+          </inertial>
+          <collision name='rotor_0_collision'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.0050000000000000001</length>
+                <radius>0.10000000000000001</radius>
+              </cylinder>
+            </geometry>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <friction>
+                <ode/>
+              </friction>
+              <bounce/>
+            </surface>
+          </collision>
+          <visual name='rotor_0_visual'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://iris_with_standoffs/meshes/iris_prop_cw.dae</uri>
+              </mesh>
+            </geometry>
+            <material>
+              <ambient>0 1 0 1</ambient>
+              <diffuse>0 1 0 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <gravity>true</gravity>
+          <velocity_decay/>
+          <self_collide>false</self_collide>
+        </link>
+        <joint name='rotor_0_joint' type='revolute'>
+          <child>rotor_0</child>
+          <parent>base_link</parent>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>-10000000000000000</lower>
+              <upper>10000000000000000</upper>
+            </limit>
+            <dynamics>
+              <damping>0.0040000000000000001</damping>
+              <spring_reference>0</spring_reference>
+              <spring_stiffness>0</spring_stiffness>
+            </dynamics>
+          </axis>
+          <physics>
+            <ode>
+              <implicit_spring_damper>true</implicit_spring_damper>
+            </ode>
+          </physics>
+        </joint>
+        <link name='rotor_1'>
+          <pose>-0.13 0.20000000000000001 0.023 0 0 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.025000000000000001</mass>
+            <inertia>
+              <ixx>9.7499999999999998e-06</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0.00016670399999999999</iyy>
+              <iyz>0</iyz>
+              <izz>0.00016760399999999999</izz>
+            </inertia>
+          </inertial>
+          <collision name='rotor_1_collision'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.0050000000000000001</length>
+                <radius>0.10000000000000001</radius>
+              </cylinder>
+            </geometry>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <friction>
+                <ode/>
+              </friction>
+              <bounce/>
+            </surface>
+          </collision>
+          <visual name='rotor_1_visual'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://iris_with_standoffs/meshes/iris_prop_cw.dae</uri>
+              </mesh>
+            </geometry>
+            <material>
+              <ambient>1 0 0 1</ambient>
+              <diffuse>1 0 0 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <gravity>true</gravity>
+          <velocity_decay/>
+          <self_collide>false</self_collide>
+        </link>
+        <joint name='rotor_1_joint' type='revolute'>
+          <child>rotor_1</child>
+          <parent>base_link</parent>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>-10000000000000000</lower>
+              <upper>10000000000000000</upper>
+            </limit>
+            <dynamics>
+              <damping>0.0040000000000000001</damping>
+              <spring_reference>0</spring_reference>
+              <spring_stiffness>0</spring_stiffness>
+            </dynamics>
+          </axis>
+          <physics>
+            <ode>
+              <implicit_spring_damper>true</implicit_spring_damper>
+            </ode>
+          </physics>
+        </joint>
+        <link name='rotor_2'>
+          <pose>0.13 0.22 0.023 0 0 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.025000000000000001</mass>
+            <inertia>
+              <ixx>9.7499999999999998e-06</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0.00016670399999999999</iyy>
+              <iyz>0</iyz>
+              <izz>0.00016760399999999999</izz>
+            </inertia>
+          </inertial>
+          <collision name='rotor_2_collision'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.0050000000000000001</length>
+                <radius>0.10000000000000001</radius>
+              </cylinder>
+            </geometry>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <friction>
+                <ode/>
+              </friction>
+              <bounce/>
+            </surface>
+          </collision>
+          <visual name='rotor_2_visual'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://iris_with_standoffs/meshes/iris_prop_ccw.dae</uri>
+              </mesh>
+            </geometry>
+            <material>
+              <ambient>0 1 0 1</ambient>
+              <diffuse>0 1 0 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <gravity>true</gravity>
+          <velocity_decay/>
+          <self_collide>false</self_collide>
+        </link>
+        <joint name='rotor_2_joint' type='revolute'>
+          <child>rotor_2</child>
+          <parent>base_link</parent>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>-10000000000000000</lower>
+              <upper>10000000000000000</upper>
+            </limit>
+            <dynamics>
+              <damping>0.0040000000000000001</damping>
+              <spring_reference>0</spring_reference>
+              <spring_stiffness>0</spring_stiffness>
+            </dynamics>
+          </axis>
+          <physics>
+            <ode>
+              <implicit_spring_damper>true</implicit_spring_damper>
+            </ode>
+          </physics>
+        </joint>
+        <link name='rotor_3'>
+          <pose>-0.13 -0.20000000000000001 0.023 0 0 0</pose>
+          <inertial>
+            <pose>0 0 0 0 0 0</pose>
+            <mass>0.025000000000000001</mass>
+            <inertia>
+              <ixx>9.7499999999999998e-06</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>0.00016670399999999999</iyy>
+              <iyz>0</iyz>
+              <izz>0.00016760399999999999</izz>
+            </inertia>
+          </inertial>
+          <collision name='rotor_3_collision'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <cylinder>
+                <length>0.0050000000000000001</length>
+                <radius>0.10000000000000001</radius>
+              </cylinder>
+            </geometry>
+            <surface>
+              <contact>
+                <ode/>
+              </contact>
+              <friction>
+                <ode/>
+              </friction>
+              <bounce/>
+            </surface>
+          </collision>
+          <visual name='rotor_3_visual'>
+            <pose>0 0 0 0 0 0</pose>
+            <geometry>
+              <mesh>
+                <scale>1 1 1</scale>
+                <uri>model://iris_with_standoffs/meshes/iris_prop_ccw.dae</uri>
+              </mesh>
+            </geometry>
+            <material>
+              <ambient>1 0 0 1</ambient>
+              <diffuse>1 0 0 1</diffuse>
+              <specular>1 1 1 1</specular>
+              <pbr>
+                <metal>
+                  <metalness>0.5</metalness>
+                  <roughness>0.5</roughness>
+                </metal>
+              </pbr>
+            </material>
+          </visual>
+          <gravity>true</gravity>
+          <velocity_decay/>
+          <self_collide>false</self_collide>
+        </link>
+        <joint name='rotor_3_joint' type='revolute'>
+          <child>rotor_3</child>
+          <parent>base_link</parent>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>-10000000000000000</lower>
+              <upper>10000000000000000</upper>
+            </limit>
+            <dynamics>
+              <damping>0.0040000000000000001</damping>
+              <spring_reference>0</spring_reference>
+              <spring_stiffness>0</spring_stiffness>
+            </dynamics>
+          </axis>
+          <physics>
+            <ode>
+              <implicit_spring_damper>true</implicit_spring_damper>
+            </ode>
+          </physics>
+        </joint>
+      </model>
+      <plugin name='gz::sim::systems::Imu' filename='gz-sim-imu-system'/>
+      <plugin name='gz::sim::systems::JointStatePublisher' filename='gz-sim-joint-state-publisher-system'/>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>0.084 0 0</cp>
+        <forward>0 -1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_0</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>-0.084 0 0</cp>
+        <forward>0 1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_0</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>0.084 0 0</cp>
+        <forward>0 -1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_1</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>-0.084 0 0</cp>
+        <forward>0 1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_1</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>0.084 0 0</cp>
+        <forward>0 1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_2</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>-0.084 0 0</cp>
+        <forward>0 -1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_2</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>0.084 0 0</cp>
+        <forward>0 1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_3</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::LiftDrag' filename='gz-sim-lift-drag-system'>
+        <a0>0.3</a0>
+        <alpha_stall>1.4</alpha_stall>
+        <cla>4.2500</cla>
+        <cda>0.10</cda>
+        <cma>0.0</cma>
+        <cla_stall>-0.025</cla_stall>
+        <cda_stall>0.0</cda_stall>
+        <cma_stall>0.0</cma_stall>
+        <area>0.002</area>
+        <air_density>1.2041</air_density>
+        <cp>-0.084 0 0</cp>
+        <forward>0 -1 0</forward>
+        <upward>0 0 1</upward>
+        <link_name>iris_with_standoffs::rotor_3</link_name>
+      </plugin>
+      <plugin name='gz::sim::systems::ApplyJointForce' filename='gz-sim-apply-joint-force-system'>
+        <joint_name>iris_with_standoffs::rotor_0_joint</joint_name>
+      </plugin>
+      <plugin name='gz::sim::systems::ApplyJointForce' filename='gz-sim-apply-joint-force-system'>
+        <joint_name>iris_with_standoffs::rotor_1_joint</joint_name>
+      </plugin>
+      <plugin name='gz::sim::systems::ApplyJointForce' filename='gz-sim-apply-joint-force-system'>
+        <joint_name>iris_with_standoffs::rotor_2_joint</joint_name>
+      </plugin>
+      <plugin name='gz::sim::systems::ApplyJointForce' filename='gz-sim-apply-joint-force-system'>
+        <joint_name>iris_with_standoffs::rotor_3_joint</joint_name>
+      </plugin>
+      <plugin name='Iflight' filename='Iflight'>
+        <rotor index='0'>
+          <joint_name>iris_with_standoffs::rotor_0_joint</joint_name>
+          <direction_k>-1</direction_k>
+        </rotor>
+        <rotor index='2'>
+          <joint_name>iris_with_standoffs::rotor_2_joint</joint_name>
+          <direction_k>1</direction_k>
+        </rotor>
+        <rotor index='1'>
+          <joint_name>iris_with_standoffs::rotor_1_joint</joint_name>
+          <direction_k>-1</direction_k>
+        </rotor>
+        <rotor index='3'>
+          <joint_name>iris_with_standoffs::rotor_3_joint</joint_name>
+          <direction_k>1</direction_k>
+        </rotor>
+      </plugin>
+      <pose>1.0010118716386773 0.0020783581248061136 -0.27898616396115578 -0.010419263639716105 0.0046790734637532404 -1.8417795225318988e-05</pose>
+      <static>false</static>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='park'>
+      <pose>250 200 -1 0 0 -0.45000000000000018</pose>
+      <static>true</static>
+      <link name='body'>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>https://fuel.gazebosim.org/1.0/saurav/models/simple_baylands/1/files/media/simple_baylands.DAE</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>https://fuel.gazebosim.org/1.0/saurav/models/simple_baylands/1/files/media/simple_baylands.DAE</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+  </world>
+</sdf>
