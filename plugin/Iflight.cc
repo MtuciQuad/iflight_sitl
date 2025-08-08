@@ -51,6 +51,8 @@ class gz::sim::systems::IflightPrivate
     motorMsg = _msg;
     motorMsgValid = true;
   }
+
+  public: double motorForce = 2.5;
 };
 
 gz::sim::systems::Iflight::Iflight()
@@ -140,7 +142,7 @@ void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
       if (motorMsg.data().size() == 4) {
         for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
         {
-          this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k / 100.0 * 5.0;
+          this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k / 100.0 * this->dataPtr->motorForce;
         }
       }
     }
