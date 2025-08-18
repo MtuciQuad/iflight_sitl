@@ -4,5 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+eframe = "0.32.1"
 gz = { version = "0.9.0", features = ["harmonic"] }
 hidapi = "2.6.3"
+env_logger = { version = "0.11.8", default-features = false, features = [
+  "auto-color",
+  "humantime",
+] }
+egui_extras = {version = "0.32.1", features = ["all_loaders"]}
+opencv = "0.91.0"
+image = "0.25.6"

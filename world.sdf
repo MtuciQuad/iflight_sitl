@@ -125,12 +125,12 @@
                 <real_time_factor>true</real_time_factor>
                 <iterations>true</iterations>
             </plugin>
-            <plugin name='Image Display' filename='ImageDisplay'>
+            <!-- <plugin name='Image Display' filename='ImageDisplay'>
                 <gz-gui>
                 <property key='state' type='string'>docked</property>
                 </gz-gui>
                 <topic>camera</topic>
-            </plugin>
+            </plugin> -->
             <plugin name='Component inspector' filename='ComponentInspector'>
                 <gz-gui>
                 <property type='string' key='state'>docked</property>
@@ -147,6 +147,7 @@
 			<sky/>
 			<origin_visual>false</origin_visual>
 			<grid>false</grid>
+            <shadows>0</shadows>
 		</scene>
 		<!-- <include>
 			<uri>floor</uri>
