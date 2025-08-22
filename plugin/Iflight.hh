@@ -18,7 +18,8 @@ namespace gz
       class GZ_SIM_VISIBLE Iflight:
       public gz::sim::System,
       public gz::sim::ISystemConfigure,
-      public gz::sim::ISystemPreUpdate
+      public gz::sim::ISystemPreUpdate,
+      public gz::sim::ISystemPostUpdate
       {
       private:
         std::unique_ptr<IflightPrivate> dataPtr;
@@ -34,6 +35,9 @@ namespace gz
 
       public: void PreUpdate(const gz::sim::UpdateInfo &_info,
                           gz::sim::EntityComponentManager &_ecm) override;
+
+      public: void PostUpdate(const gz::sim::UpdateInfo &_info,
+                          const gz::sim::EntityComponentManager &_ecm);
 
       private: void LoadMotors(sdf::ElementPtr _sdf,
                           gz::sim::EntityComponentManager &_ecm);

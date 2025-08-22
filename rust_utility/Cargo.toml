@@ -12,5 +12,5 @@ env_logger = { version = "0.11.8", default-features = false, features = [
   "humantime",
 ] }
 egui_extras = {version = "0.32.1", features = ["all_loaders"]}
-opencv = "0.91.0"
 image = "0.25.6"
+crossbeam-utils = "0.8.21"

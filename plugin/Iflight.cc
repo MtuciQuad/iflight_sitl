@@ -10,14 +10,22 @@
 #include <gz/sim/Model.hh>
 #include <gz/transport/Node.hh>
 #include <gz/sim/components/JointForceCmd.hh>
+#include <gz/sim/components/World.hh>
+#include <gz/sim/World.hh>
 #include <gz/msgs.hh>
+// #include <gz/sim/components/Link.hh>
+// #include <gz/sim/components/Name.hh>
+#include <gz/sim/components/Pose.hh>
+// #include <gz/sim/components/Sensor.hh>
+// #include <gz/sim/components/World.hh>
 
 
 GZ_ADD_PLUGIN(
     gz::sim::systems::Iflight,
     gz::sim::System,
     gz::sim::systems::Iflight::ISystemConfigure,
-    gz::sim::systems::Iflight::ISystemPreUpdate)
+    gz::sim::systems::Iflight::ISystemPreUpdate,
+    gz::sim::systems::Iflight::ISystemPostUpdate)
 
 GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
@@ -53,6 +61,9 @@ class gz::sim::systems::IflightPrivate
   }
 
   public: double motorForce = 2.5;
+
+  public: gz::sim::Entity imuLink{gz::sim::kNullEntity};
+  public: gz::transport::Node::Publisher pub;
 };
 
 gz::sim::systems::Iflight::Iflight()
@@ -75,6 +86,13 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   this->LoadMotors(sdfClone, _ecm);
 
   this->dataPtr->node.Subscribe("/MotorData", &gz::sim::systems::IflightPrivate::MotorCb, this->dataPtr.get());
+
+  this->dataPtr->imuLink = Model(this->dataPtr->model.Models(_ecm)[0]).LinkByName(_ecm, "imu_link");
+  enableComponent<components::WorldPose>(
+          _ecm, this->dataPtr->imuLink, true);
+
+  this->dataPtr->pub = this->dataPtr->
+          node.Advertise<msgs::Pose>("telem");
 }
 
 // Get rotors from sdf model
@@ -148,8 +166,18 @@ void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     }
     this->ApplyMotorForces(_ecm);
   }
-  
-  // gzmsg << this->dataPtr->rotors[0].currentForce << std::endl;
+}
+
+void gz::sim::systems::Iflight::PostUpdate(const gz::sim::UpdateInfo &_info,
+    const gz::sim::EntityComponentManager &_ecm)
+{
+
+  const gz::sim::components::WorldPose* worldPose =
+      _ecm.Component<gz::sim::components::WorldPose>(
+          this->dataPtr->imuLink);
+  gz::msgs::Pose poseMsg;
+  gz::msgs::Set(&poseMsg, worldPose->Data());
+  this->dataPtr->pub.Publish(poseMsg);
 }
 
 void gz::sim::systems::Iflight::ApplyMotorForces(
