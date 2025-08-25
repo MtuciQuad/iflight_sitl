@@ -14,3 +14,4 @@ env_logger = { version = "0.11.8", default-features = false, features = [
 egui_extras = {version = "0.32.1", features = ["all_loaders"]}
 image = "0.25.6"
 crossbeam-utils = "0.8.21"
+nalgebra = "0.34.0"

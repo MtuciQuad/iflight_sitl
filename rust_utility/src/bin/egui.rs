@@ -14,6 +14,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 use crossbeam_utils::atomic::AtomicCell;
 use std::process::Command;
+use nalgebra::{Quaternion, UnitQuaternion};
 
 fn main() -> eframe::Result {
     let options = eframe::NativeOptions {
@@ -42,7 +43,7 @@ static MOTOR_DATA: AtomicCell<[f32; 4]> = AtomicCell::new([0f32; 4]);
 static ACC_DATA: AtomicCell<[f32; 3]> = AtomicCell::new([0f32; 3]);
 static GYRO_DATA: AtomicCell<[f32; 3]> = AtomicCell::new([0f32; 3]);
 static POS_DATA: AtomicCell<[f32; 3]> = AtomicCell::new([0f32; 3]);
-static QUAT_DATA: AtomicCell<[f32; 4]> = AtomicCell::new([0f32; 4]);
+static RPY_DATA: AtomicCell<[f32; 3]> = AtomicCell::new([0f32; 3]);
 // static RTF: Arc<Mutex<f64>> = Arc::new(Mutex::new(0.0f64));
 // static RTF: AtomicCell<f64> = AtomicCell::new(0.0);
 
@@ -98,7 +99,11 @@ impl Default for MyApp {
             let quat_z = quat.z as f32;
             let quat_w = quat.w as f32;
             POS_DATA.store([pos_x, pos_y, pos_z]);
-            QUAT_DATA.store([quat_x, quat_y, quat_z, quat_w]);
+            
+            let unit_quat = UnitQuaternion::from_quaternion(Quaternion::new(quat_w, quat_x, quat_y, quat_z));
+            let eul = unit_quat.euler_angles();
+            let eul_arr = [eul.0, -eul.1, -eul.2].map(|x| x / 3.14 * 180.0);
+            RPY_DATA.store(eul_arr);
         }));
 
         Self {
@@ -135,15 +140,21 @@ impl MyApp {
             // }
         });
         ui.add_space(20.0);
-        ui.label("21332313132");
-        ui.label(format!("Motor forces: {:?}", MOTOR_DATA.take()));
-        ui.label(format!("ACC: {:?}", ACC_DATA.take()));
-        ui.label(format!("GYRO: {:?}", GYRO_DATA.take()));
+        ui.label("Telemetry:");
+        let motors = MOTOR_DATA.take();
+        ui.label(format!("Motor forces: {:.2} {:.2} {:.2} {:.2}", motors[0], motors[1], motors[2], motors[3]));
+        let acc = ACC_DATA.take();
+        ui.label(format!("ACC: {:.2} {:.2} {:.2}", acc[0], acc[1], acc[2 ]));
+        let gyro = GYRO_DATA.take();
+        ui.label(format!("GYRO: {:.2} {:.2} {:.2}", gyro[0], gyro[1], gyro[2]));
         // let rtf_val = RTF.take();
         // ui.label(format!("RTF: {:?}", RTF.take()));
-        ui.label(format!("RTF: {:?}", self.rtf.lock().unwrap()));
-        ui.label(format!("POS: {:?}", POS_DATA.take()));
-        ui.label(format!("QUAT: {:?}", QUAT_DATA.take()));
+        ui.label(format!("RTF: {:.2}", self.rtf.lock().unwrap()));
+        let pos = POS_DATA.take();
+        ui.label(format!("POS: {:.2} {:.2} {:.2}", pos[0], pos[1], pos[2]));
+        let rpy = RPY_DATA.take();
+        ui.label(format!("RPY: {:.2} {:.2} {:.2}", rpy[0], rpy[1], rpy[2]));
+
         Ok(())
     }
 }
