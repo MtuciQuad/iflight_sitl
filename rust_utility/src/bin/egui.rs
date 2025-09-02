@@ -10,7 +10,7 @@ use gz::msgs::{
     world_stats::WorldStatistics,
     pose::Pose
 };
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::{f32::consts::PI, sync::mpsc::{Receiver, Sender, channel}};
 use std::sync::{Arc, Mutex};
 use crossbeam_utils::atomic::AtomicCell;
 use std::process::Command;
@@ -62,9 +62,9 @@ impl Default for MyApp {
         assert!(node.subscribe("/imu", |msg: IMU| {
             let ang = msg.angular_velocity.as_ref().unwrap();
             let lin = msg.linear_acceleration.as_ref().unwrap();
-            let gx = -ang.x as f32;
-            let gy = -ang.y as f32;
-            let gz = -ang.z as f32;
+            let gx = -ang.x  as f32 / PI * 180.0;
+            let gy = -ang.y  as f32 / PI * 180.0;
+            let gz = -ang.z  as f32 / PI * 180.0;
             let ax = lin.x as f32;
             let ay = lin.y as f32;
             let az = lin.z as f32;
@@ -102,7 +102,7 @@ impl Default for MyApp {
             
             let unit_quat = UnitQuaternion::from_quaternion(Quaternion::new(quat_w, quat_x, quat_y, quat_z));
             let eul = unit_quat.euler_angles();
-            let eul_arr = [eul.0, -eul.1, -eul.2].map(|x| x / 3.14 * 180.0);
+            let eul_arr = [eul.0, -eul.1, -eul.2].map(|x| x / PI * 180.0);
             RPY_DATA.store(eul_arr);
         }));
 
@@ -142,6 +142,7 @@ impl MyApp {
         ui.add_space(20.0);
         ui.label("Telemetry:");
         let motors = MOTOR_DATA.take();
+        ui.label(format!("Motor DIFF: {:.2}", motors[0] - motors[2]));
         ui.label(format!("Motor forces: {:.2} {:.2} {:.2} {:.2}", motors[0], motors[1], motors[2], motors[3]));
         let acc = ACC_DATA.take();
         ui.label(format!("ACC: {:.2} {:.2} {:.2}", acc[0], acc[1], acc[2 ]));

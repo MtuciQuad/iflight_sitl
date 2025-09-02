@@ -179,8 +179,12 @@
                 </visual>
             </link>
         </model> -->
-		<include>
+		<!-- <include>
 			<uri>iris</uri>
+			<pose>1 0 0.3 0 0 0</pose>
+		</include> -->
+        <include>
+			<uri>iflight_force</uri>
 			<pose>1 0 0.3 0 0 0</pose>
 		</include>
         <include>
@@ -196,5 +200,9 @@
             </uri>
             <pose relative_to="park">0 0 -2 0 0 0 </pose>
         </include> -->
+        <plugin
+			filename="gz-sim-apply-link-wrench-system"
+      		name="gz::sim::systems::ApplyLinkWrench">
+		</plugin>
 	</world>
 </sdf>

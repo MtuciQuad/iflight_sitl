@@ -10,6 +10,7 @@ simulator: build_simulator
 	GZ_SIM_RESOURCE_PATH=${CURDIR}/models:$$GZ_SIM_RESOURCE_PATH \
 	GZ_SIM_SYSTEM_PLUGIN_PATH=${CURDIR}/plugin/build:$$GZ_SIM_SYSTEM_PLUGIN_PATH \
 	gz sim -v 3 -s -r --headless-rendering world.sdf
+	# gz sim -v 3 world.sdf
 
 	
 .PHONY: cmake build_simulator simulator

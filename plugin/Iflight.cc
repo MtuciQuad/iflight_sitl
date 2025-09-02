@@ -29,23 +29,12 @@ GZ_ADD_PLUGIN(
 
 GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
-// Class for each rotor
-class Rotor
-{
-  public: Rotor() {}
-  public: ~Rotor() {}
-  public: int index;
-  public: std::string jointName;
-  public: gz::sim::Entity joint;
-  public: int direction_k;
-  public: double currentForce = 0.0;
-};
 
 class gz::sim::systems::IflightPrivate
 {
   public: gz::sim::Model model;
   
-  public: std::vector<Rotor> rotors;
+  // public: std::vector<Rotor> rotors;
   
   public: gz::transport::Node node;
 
@@ -60,7 +49,7 @@ class gz::sim::systems::IflightPrivate
     motorMsgValid = true;
   }
 
-  public: double motorForce = 2.5;
+  public: double motorForce = 5;
 
   public: gz::sim::Entity imuLink{gz::sim::kNullEntity};
   public: gz::transport::Node::Publisher pub;
@@ -83,11 +72,10 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   sdf::ElementPtr sdfClone = _sdf->Clone();
   this->dataPtr->model = gz::sim::Model(_entity);
 
-  this->LoadMotors(sdfClone, _ecm);
-
   this->dataPtr->node.Subscribe("/MotorData", &gz::sim::systems::IflightPrivate::MotorCb, this->dataPtr.get());
 
-  this->dataPtr->imuLink = Model(this->dataPtr->model.Models(_ecm)[0]).LinkByName(_ecm, "imu_link");
+  this->dataPtr->imuLink = this->dataPtr->model.LinkByName(_ecm, "imu_link");
+  // gzmsg << this->dataPtr->imuLink << std::endl;
   enableComponent<components::WorldPose>(
           _ecm, this->dataPtr->imuLink, true);
 
@@ -95,76 +83,30 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
           node.Advertise<msgs::Pose>("telem");
 }
 
-// Get rotors from sdf model
-void gz::sim::systems::Iflight::LoadMotors(
-  sdf::ElementPtr _sdf,
-  gz::sim::EntityComponentManager &_ecm)
-{
-  sdf::ElementPtr rotorSDF;
-  if (_sdf->HasElement("rotor"))
-  {
-    rotorSDF = _sdf->GetElement("rotor");
-  }
 
-  while (rotorSDF)
-  {
-    Rotor rotor;
-
-    if (rotorSDF->HasAttribute("index"))
-    {
-      rotor.index = atoi(rotorSDF->GetAttribute("index")->GetAsString().c_str());
-    }
-    else
-    {
-      gzwarn << "A rotor without index was found. Plugin wouldn't work.\n";
-      return;
-    }
-
-    if (rotorSDF->HasElement("joint_name"))
-    {
-      rotor.jointName = rotorSDF->Get<std::string>("joint_name");
-    }
-    else
-    {
-      gzwarn << "A rotor without joint_name was found. Plugin wouldn't work.\n";
-      return;
-    }
-
-    if (rotorSDF->HasElement("direction_k"))
-    {
-      rotor.direction_k = rotorSDF->Get<double>("direction_k");
-    }
-    else
-    {
-      gzwarn << "A rotor without direction_k was found. Plugin wouldn't work.\n";
-      return;
-    }
-
-    auto entities = entitiesFromScopedName(rotor.jointName, _ecm, this->dataPtr->model.Entity());
-    rotor.joint = *entities.begin();
-
-    this->dataPtr->rotors.push_back(rotor);
-    rotorSDF = rotorSDF->GetNextElement("rotor");
-  }
-}
   
 void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::sim::EntityComponentManager &_ecm)
 {
   gz::msgs::Float_V motorMsg;
   {
-    std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
-    if (this->dataPtr->motorMsgValid)
-    {
-      motorMsg = this->dataPtr->motorMsg;
-      if (motorMsg.data().size() == 4) {
-        for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
-        {
-          this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k / 100.0 * this->dataPtr->motorForce;
-        }
-      }
-    }
-    this->ApplyMotorForces(_ecm);
+    // std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
+    // if (this->dataPtr->motorMsgValid)
+    // {
+    //   motorMsg = this->dataPtr->motorMsg;
+    //   if (motorMsg.data().size() == 4) {
+    //     for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
+    //     {
+    //       this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k / 100.0 * this->dataPtr->motorForce;
+    //     }
+    //   } else {
+    //     for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
+    //     {
+    //       this->dataPtr->rotors[i].currentForce = 0;
+    //     }
+    //   }
+    // }
+    // this->ApplyMotorForces(_ecm);
   }
 }
 
@@ -180,23 +122,23 @@ void gz::sim::systems::Iflight::PostUpdate(const gz::sim::UpdateInfo &_info,
   this->dataPtr->pub.Publish(poseMsg);
 }
 
-void gz::sim::systems::Iflight::ApplyMotorForces(
-  gz::sim::EntityComponentManager &_ecm)
-{
-  // gzmsg << this->dataPtr->rotors.size() << std::endl;
-  for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
-  {
-    // gzmsg << this->dataPtr->rotors[i].joint << std::endl;
-    gz::sim::components::JointForceCmd* jfcComp = nullptr;
-    jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
-    if (jfcComp == nullptr)
-      {
-        jfcComp = _ecm.CreateComponent(this->dataPtr->rotors[i].joint,
-            gz::sim::components::JointForceCmd({0}));
-      }
-    // if (jfcComp != nullptr) {
-    // }
-    jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
+// void gz::sim::systems::Iflight::ApplyMotorForces(
+//   gz::sim::EntityComponentManager &_ecm)
+// {
+//   // gzmsg << this->dataPtr->rotors.size() << std::endl;
+//   for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
+//   {
+//     // gzmsg << this->dataPtr->rotors[i].joint << std::endl;
+//     gz::sim::components::JointForceCmd* jfcComp = nullptr;
+//     jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
+//     if (jfcComp == nullptr)
+//       {
+//         jfcComp = _ecm.CreateComponent(this->dataPtr->rotors[i].joint,
+//             gz::sim::components::JointForceCmd({0}));
+//       }
+//     // if (jfcComp != nullptr) {
+//     // }
+//     jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
     
-  }
-}
+//   }
+// }

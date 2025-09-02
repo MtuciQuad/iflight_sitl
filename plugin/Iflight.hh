@@ -39,9 +39,6 @@ namespace gz
       public: void PostUpdate(const gz::sim::UpdateInfo &_info,
                           const gz::sim::EntityComponentManager &_ecm);
 
-      private: void LoadMotors(sdf::ElementPtr _sdf,
-                          gz::sim::EntityComponentManager &_ecm);
-
       private: void ApplyMotorForces(gz::sim::EntityComponentManager &_ecm);
       };
     }
