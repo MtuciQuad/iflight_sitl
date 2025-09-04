@@ -10,6 +10,8 @@
 #include <gz/sim/Model.hh>
 #include <gz/transport/Node.hh>
 #include <gz/sim/components/JointForceCmd.hh>
+#include <gz/sim/components/ExternalWorldWrenchCmd.hh>
+
 #include <gz/sim/components/World.hh>
 #include <gz/sim/World.hh>
 #include <gz/msgs.hh>
@@ -29,12 +31,23 @@ GZ_ADD_PLUGIN(
 
 GZ_ADD_PLUGIN_ALIAS(gz::sim::systems::Iflight, "Iflight")
 
+class Prop
+{
+  public: Prop() {}
+  public: ~Prop() {}
+  public: int index;
+  public: std::string linkName;
+  public: gz::sim::Entity link;
+  public: int direction_k;
+  public: double currentForce = 0.0;
+  public: double currentTorque = 0.0;
+};
 
 class gz::sim::systems::IflightPrivate
 {
   public: gz::sim::Model model;
   
-  // public: std::vector<Rotor> rotors;
+  public: std::vector<Prop> props;
   
   public: gz::transport::Node node;
 
@@ -49,10 +62,13 @@ class gz::sim::systems::IflightPrivate
     motorMsgValid = true;
   }
 
-  public: double motorForce = 5;
+  public: double motorForce = 2;
+  public: double motorTorque = 0.01;
 
   public: gz::sim::Entity imuLink{gz::sim::kNullEntity};
   public: gz::transport::Node::Publisher pub;
+
+  public: gz::math::Pose3<double> wPose;
 };
 
 gz::sim::systems::Iflight::Iflight()
@@ -72,6 +88,8 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
   sdf::ElementPtr sdfClone = _sdf->Clone();
   this->dataPtr->model = gz::sim::Model(_entity);
 
+  this->LoadMotors(sdfClone, _ecm);
+
   this->dataPtr->node.Subscribe("/MotorData", &gz::sim::systems::IflightPrivate::MotorCb, this->dataPtr.get());
 
   this->dataPtr->imuLink = this->dataPtr->model.LinkByName(_ecm, "imu_link");
@@ -88,25 +106,29 @@ void gz::sim::systems::Iflight::Configure(const Entity &_entity,
 void gz::sim::systems::Iflight::PreUpdate(const gz::sim::UpdateInfo &_info,
     gz::sim::EntityComponentManager &_ecm)
 {
+  this->dataPtr->wPose = _ecm.Component<gz::sim::components::WorldPose>(this->dataPtr->imuLink)->Data();
+  // gzmsg << this->dataPtr->wPose->Data() << std::endl;
   gz::msgs::Float_V motorMsg;
   {
-    // std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
-    // if (this->dataPtr->motorMsgValid)
-    // {
-    //   motorMsg = this->dataPtr->motorMsg;
-    //   if (motorMsg.data().size() == 4) {
-    //     for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
-    //     {
-    //       this->dataPtr->rotors[i].currentForce = motorMsg.data().Get(i) * this->dataPtr->rotors[i].direction_k / 100.0 * this->dataPtr->motorForce;
-    //     }
-    //   } else {
-    //     for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
-    //     {
-    //       this->dataPtr->rotors[i].currentForce = 0;
-    //     }
-    //   }
-    // }
-    // this->ApplyMotorForces(_ecm);
+    std::lock_guard<std::mutex> lock(this->dataPtr->motorMsgMutex);
+    if (this->dataPtr->motorMsgValid)
+    {
+      motorMsg = this->dataPtr->motorMsg;
+      if (motorMsg.data().size() == 4) {
+        for (size_t i = 0; i < this->dataPtr->props.size(); ++i)
+        {
+          this->dataPtr->props[i].currentForce = motorMsg.data().Get(i) / 100.0 * this->dataPtr->motorForce;
+          this->dataPtr->props[i].currentTorque = motorMsg.data().Get(i) * this->dataPtr->props[i].direction_k / 100.0 * this->dataPtr->motorTorque;
+        }
+      } else {
+        for (size_t i = 0; i < this->dataPtr->props.size(); ++i)
+        {
+          this->dataPtr->props[i].currentForce = 0;
+          this->dataPtr->props[i].currentTorque = 0;
+        }
+      }
+    }
+    this->ApplyMotorForces(_ecm);
   }
 }
 
@@ -122,23 +144,96 @@ void gz::sim::systems::Iflight::PostUpdate(const gz::sim::UpdateInfo &_info,
   this->dataPtr->pub.Publish(poseMsg);
 }
 
-// void gz::sim::systems::Iflight::ApplyMotorForces(
-//   gz::sim::EntityComponentManager &_ecm)
-// {
-//   // gzmsg << this->dataPtr->rotors.size() << std::endl;
-//   for (size_t i = 0; i < this->dataPtr->rotors.size(); ++i)
-//   {
-//     // gzmsg << this->dataPtr->rotors[i].joint << std::endl;
-//     gz::sim::components::JointForceCmd* jfcComp = nullptr;
-//     jfcComp = _ecm.Component<gz::sim::components::JointForceCmd>(this->dataPtr->rotors[i].joint);
-//     if (jfcComp == nullptr)
-//       {
-//         jfcComp = _ecm.CreateComponent(this->dataPtr->rotors[i].joint,
-//             gz::sim::components::JointForceCmd({0}));
-//       }
-//     // if (jfcComp != nullptr) {
-//     // }
-//     jfcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
+void gz::sim::systems::Iflight::ApplyMotorForces(
+  gz::sim::EntityComponentManager &_ecm)
+{
+  // gzmsg << this->dataPtr->props.size() << std::endl;
+  for (size_t i = 0; i < this->dataPtr->props.size(); ++i)
+  {
+    gz::sim::components::ExternalWorldWrenchCmd* ewwcComp = nullptr;
+    ewwcComp = _ecm.Component<gz::sim::components::ExternalWorldWrenchCmd>(this->dataPtr->props[i].link);
+    // gzmsg << (ewwcComp == nullptr) << std::endl;
+    if (ewwcComp == nullptr)
+      {
+        ewwcComp = _ecm.CreateComponent(this->dataPtr->props[i].link,
+            gz::sim::components::ExternalWorldWrenchCmd());
+        // gzmsg << 666 << std::endl;        
+      }
+    // if (ewwcComp != nullptr) {
+    //   gzmsg << 123 << std::endl;
+    // }
+    gz::math::Quaternion q(this->dataPtr->wPose.Roll(), this->dataPtr->wPose.Pitch(), this->dataPtr->wPose.Yaw());
+    gz::math::Vector3d fv(0.0, 0.0, this->dataPtr->props[i].currentForce);
+    gz::math::Vector3d tv(0.0, 0.0, this->dataPtr->props[i].currentTorque);
+    auto force_new = q.RotateVector(fv);
+    auto torque_new = q.RotateVector(tv);
+    // gzmsg << force_new << std::endl;
+
+    msgs::Set(ewwcComp->Data().mutable_force(), 
+                  force_new);
+    msgs::Set(ewwcComp->Data().mutable_torque(), 
+                  torque_new);
+    // ewwcComp->Data()[0] = this->dataPtr->rotors[i].currentForce;
     
-//   }
-// }
+  }
+}
+
+void gz::sim::systems::Iflight::LoadMotors(
+  sdf::ElementPtr _sdf,
+  gz::sim::EntityComponentManager &_ecm)
+{
+  sdf::ElementPtr propSDF;
+  if (_sdf->HasElement("prop"))
+  {
+    propSDF = _sdf->GetElement("prop");
+  }
+
+  while (propSDF)
+  {
+    Prop prop;
+
+    if (propSDF->HasAttribute("index"))
+    {
+      prop.index = atoi(propSDF->GetAttribute("index")->GetAsString().c_str());
+    }
+    else
+    {
+      gzwarn << "A prop without index was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    if (propSDF->HasElement("link_name"))
+    {
+      prop.linkName = propSDF->Get<std::string>("link_name");
+    }
+    else
+    {
+      gzwarn << "A prop without link_name was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    if (propSDF->HasElement("direction"))
+    {
+      std::string dir = propSDF->Get<std::string>("direction");
+      if (dir == "cw") {
+        prop.direction_k = 1;
+      } else if (dir == "ccw") {
+        prop.direction_k = -1;
+      } else {
+        gzwarn << "A prop with invalid direction was found. Plugin wouldn't work.\n";
+        return;
+      }
+    }
+    else
+    {
+      gzwarn << "A prop without direction was found. Plugin wouldn't work.\n";
+      return;
+    }
+
+    auto entities = entitiesFromScopedName(prop.linkName, _ecm, this->dataPtr->model.Entity());
+    prop.link = *entities.begin();
+
+    this->dataPtr->props.push_back(prop);
+    propSDF = propSDF->GetNextElement("prop");
+  }
+}
